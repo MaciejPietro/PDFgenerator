@@ -1,0 +1,14 @@
+@import "tailwind";
+
+.app {
+  font-family: helvetica, arial, sans-serif;
+  padding: 2em;
+
+  h1 {
+    @apply text-sm;
+  }
+
+  p {
+    @apply text-red-700;
+  }
+}
