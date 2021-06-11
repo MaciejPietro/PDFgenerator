@@ -1,12 +1,12 @@
 import IRoute from "../interfaces/route";
-import HomePage from "../pages/home";
-import Settings from "../pages/settings";
+import Home from "../views/pages/Home";
+import Settings from "../views/pages/Settings";
 
 const routes: IRoute[] = [
   {
     path: "/",
     name: "Home Page",
-    component: HomePage,
+    component: Home,
     exact: true,
   },
   {

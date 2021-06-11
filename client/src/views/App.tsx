@@ -9,13 +9,14 @@ import {
 import { hot } from "react-hot-loader";
 import "./../assets/scss/App.scss";
 
-import Creator from "./Creator";
-import Header from "./Header";
+// import Creator from "./Creator";
+// import Header from "./Header";
 
 const App: React.FunctionComponent<{}> = () => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
+
       <BrowserRouter>
         <Switch>
           {routes.map((route, index) => {

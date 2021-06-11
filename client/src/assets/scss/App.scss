@@ -1,14 +1,6 @@
 @import "tailwind";
+@import "global/global";
+@import "global/grid";
 
-.app {
-  font-family: helvetica, arial, sans-serif;
-  padding: 2em;
-
-  h1 {
-    @apply text-sm;
-  }
-
-  p {
-    @apply text-red-700;
-  }
-}
+@import "components/paper";
+@import "components/tree";
