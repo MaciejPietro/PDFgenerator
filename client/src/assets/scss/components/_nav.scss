@@ -1,0 +1,11 @@
+.nav {
+  @apply fixed border-2 top-0 left-0;
+
+  &:first-of-type {
+    @apply w-full h-16 border-red-500 flex justify-items-end;
+  }
+
+  &:last-of-type {
+    @apply w-16 h-screen border-blue-500 flex items-center;
+  }
+}

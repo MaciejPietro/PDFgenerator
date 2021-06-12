@@ -1,46 +1,42 @@
 import * as React from "react";
-import routes from "../config/routes";
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-  RouteComponentProps,
-} from "react-router-dom";
-import { hot } from "react-hot-loader";
-import "./../assets/scss/App.scss";
+import { connect } from "react-redux";
+import { Route, Router } from "react-router-dom";
 
-// import Creator from "./Creator";
-// import Header from "./Header";
+import "../assets/scss/App.scss";
+import history from "./history";
+import Nav from "./components/Nav";
+import Pages from "./routes/Pages";
+import { checkAuthentication } from "../redux/actions/current";
+import { ICurrent } from "../redux/types";
 
-const App: React.FunctionComponent<{}> = () => {
+interface IProps {
+  checkAuthenticationConnect: () => void;
+  isAuthenticated: boolean | null;
+}
+
+const App = ({ checkAuthenticationConnect }: IProps) => {
+  React.useEffect(() => {
+    checkAuthenticationConnect();
+  }, []);
+
   return (
-    <div>
-      {/* <Header /> */}
-
-      <BrowserRouter>
-        <Switch>
-          {routes.map((route, index) => {
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                exact={route.exact}
-                render={(props: RouteComponentProps<any>) => (
-                  <route.component
-                    name={route.name}
-                    {...props}
-                    {...route.props}
-                  />
-                )}
-              />
-            );
-          })}
-        </Switch>
-      </BrowserRouter>
+    <div className="App">
+      <Router history={history}>
+        <Nav />
+        <div className="main">
+          <Route component={Pages} />
+        </div>
+      </Router>
     </div>
   );
 };
 
-declare let module: Record<string, unknown>;
+const mapStateToProps = (state: ICurrent) => ({
+  isAuthenticated: state.isAuthenticated,
+});
 
-export default hot(module)(App);
+const mapDispatchToProps = {
+  checkAuthenticationConnect: checkAuthentication,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
