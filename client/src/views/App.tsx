@@ -2,7 +2,11 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Route, Router } from "react-router-dom";
 
-import "../assets/scss/App.scss";
+import "../assets/scss/app-base.scss";
+import "../assets/scss/app-components.scss";
+import "../assets/scss/app-utilities.scss";
+// import "../assets/scss/App.scss";
+
 import history from "./history";
 import Nav from "./components/Nav";
 import Pages from "./routes/Pages";

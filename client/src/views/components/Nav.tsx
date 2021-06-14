@@ -18,9 +18,14 @@ const Nav = ({ isAuthenticated, uuid }: IProps) => {
   );
 
   const mainLinks = isAuthenticated ? (
-    <li>
-      <NavLink to="/home">Home</NavLink>
-    </li>
+    <>
+      <li>
+        <NavLink to="/dashboard">Dashboard</NavLink>
+      </li>
+      <li>
+        <NavLink to="/templates">Templates</NavLink>
+      </li>
+    </>
   ) : (
     <>
       <li>

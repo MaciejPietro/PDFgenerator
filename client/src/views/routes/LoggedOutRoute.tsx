@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 
 import history from "../history";
-import { ICurrent } from "../types";
+import { ICurrent } from "../../interfaces/types";
 
 interface IProps {
   exact?: boolean;
@@ -17,16 +17,15 @@ const LoggedOutRoute = ({
   isAuthenticated,
   ...otherProps
 }: IProps) => {
-  if (isAuthenticated === true) {
-    history.push("/home");
-    console.log(
-      "this is a logged out route, you are logged in, redirected to home page",
-    );
-  }
+  React.useEffect(() => {
+    if (isAuthenticated === true) {
+      history.push("/dashboard");
+    }
+  });
 
   return (
     <>
-      <header>Logged Out Header</header>
+      {/* <header>Logged Out Header</header> */}
       <Route
         render={(otherProps) => (
           <>
@@ -34,7 +33,7 @@ const LoggedOutRoute = ({
           </>
         )}
       />
-      <footer>Logged Out Footer</footer>
+      {/* <footer>Logged Out Footer</footer> */}
     </>
   );
 };
