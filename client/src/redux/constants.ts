@@ -3,3 +3,6 @@ export type AUTHENTICATE = typeof AUTHENTICATE;
 
 export const UNAUTHENTICATE = "UNAUTHENTICATE";
 export type UNAUTHENTICATE = typeof UNAUTHENTICATE;
+
+export const CHECKUSER = "CHECKUSER";
+export type CHECKUSER = typeof CHECKUSER;

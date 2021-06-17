@@ -7,14 +7,29 @@ import { NavLink } from "react-router-dom";
 interface IProps {
   isAuthenticated: boolean | null;
   uuid: string | null;
+  username: string | null;
 }
 
-const Nav = ({ isAuthenticated, uuid }: IProps) => {
+const Nav = ({ isAuthenticated, uuid, username }: IProps) => {
   const suffix = isAuthenticated ? "out" : "in";
   const logInOut = (
     <li>
       <NavLink to={"/log-" + suffix}>Log {suffix}</NavLink>
     </li>
+  );
+
+  const loggedLinks = isAuthenticated ? (
+    <>
+      <li className="flex flex-col">
+        <span>Logged in as</span>
+        <span>{username}</span>
+      </li>
+      <li className="mx-4">
+        {/* <NavLink to="/settings">Settings</NavLink> */}
+      </li>
+    </>
+  ) : (
+    ""
   );
 
   const mainLinks = isAuthenticated ? (
@@ -24,6 +39,9 @@ const Nav = ({ isAuthenticated, uuid }: IProps) => {
       </li>
       <li>
         <NavLink to="/templates">Templates</NavLink>
+      </li>
+      <li>
+        <NavLink to="/settings">Settings</NavLink>
       </li>
     </>
   ) : (
@@ -45,7 +63,10 @@ const Nav = ({ isAuthenticated, uuid }: IProps) => {
           {isAuthenticated ? `Logged in user: ${uuid}` : "Logged out"}
         </p> */}
 
-        <ul className="ml-auto">{logInOut}</ul>
+        <ul className="ml-auto inline-flex">
+          {loggedLinks}
+          {logInOut}
+        </ul>
       </nav>
       <nav className="nav">
         <ul>
@@ -62,12 +83,15 @@ const Nav = ({ isAuthenticated, uuid }: IProps) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  // TODO make ICurrent easilu accessible from any app level
-  // const mapStateToProps = (state: ICurrent) => ({
+const mapStateToProps = (state: any) => {
+  return {
+    // TODO make ICurrent easilu accessible from any app level
+    // const mapStateToProps = (state: ICurrent) => ({
 
-  uuid: state.uuid,
-  isAuthenticated: state.isAuthenticated,
-});
+    uuid: state.uuid,
+    isAuthenticated: state.authReducer.isAuthenticated,
+    username: state.authReducer.username,
+  };
+};
 
 export default connect(mapStateToProps)(Nav);

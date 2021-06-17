@@ -1,5 +1,5 @@
-import * as React from "react";
-
-const Templates = () => <p>LOGGED - Templates</p>;
+const Templates = () => {
+  return <p>LOGGED - Templates</p>;
+};
 
 export default Templates;

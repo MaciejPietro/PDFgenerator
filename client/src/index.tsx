@@ -5,8 +5,7 @@ import { applyMiddleware, compose, createStore } from "redux";
 import thunkMiddleware from "redux-thunk-recursion-detect";
 
 import App from "./views/App";
-import currentReducer from "./redux/reducers/current";
-import { ICurrent } from "./redux/types";
+import reducers from "./redux/reducers";
 
 let composeEnhancers;
 
@@ -19,8 +18,8 @@ let composeEnhancers;
 composeEnhancers = compose;
 // }
 
-const store = createStore<ICurrent, any, any, any>(
-  currentReducer,
+const store = createStore<any, undefined, any, any>(
+  reducers,
   undefined,
   composeEnhancers(applyMiddleware(thunkMiddleware)),
 );
