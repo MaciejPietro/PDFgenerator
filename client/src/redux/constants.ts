@@ -6,3 +6,6 @@ export type UNAUTHENTICATE = typeof UNAUTHENTICATE;
 
 export const CHECKUSER = "CHECKUSER";
 export type CHECKUSER = typeof CHECKUSER;
+
+export const ARTISTDETAILS = "ARTISTDETAILS";
+export type ARTISTDETAILS = typeof ARTISTDETAILS;

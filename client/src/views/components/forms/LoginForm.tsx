@@ -1,44 +1,59 @@
 import { useState, useEffect } from "react";
-const LoginForm = (props: any) => {
-  const [passes, setPasses] = useState({ name: "user", password: "ziolo" });
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { IUserLoginData } from "../../../interfaces/user";
 
-  const handleSubmit = (ev) => {
-    ev.preventDefault();
-    props.submitForm(passes);
+import Input from "../../partials/Input";
+import SubmitButton from "../../partials/SubmitButton";
+
+const schema = yup.object().shape({
+  username: yup
+    .string()
+    .min(2, "This field is too short")
+    .max(30, "This field is too long")
+    .required("This field is required"),
+  password: yup
+    .string()
+    .required("This field is required")
+    .min(6, "This field is too short")
+    .matches(/^(?=.*[A-Za-z])(?=\D*\d)\S{6,}$/, "Must Contain Number"),
+});
+
+const LoginForm = (props: any) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IUserLoginData>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (data: IUserLoginData) => {
+    props.submitForm(data);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-        <label className="block text-grey-darker text-sm font-bold mb-2">
-          Username
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-            id="username"
-            type="text"
-            placeholder="Username"
-            onChange={(e) => setPasses({ ...passes, name: e.target.value })}
-          />
-        </label>
-
-        <label className="block text-grey-darker text-sm font-bold mb-2">
-          Password
-          <input
-            className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
-            id="password"
-            type="password"
-            placeholder="******************"
-            onChange={(e) => setPasses({ ...passes, password: e.target.value })}
-          />
-        </label>
+        <Input
+          register={register}
+          errors={errors}
+          name="username"
+          type="text"
+          placeholder="Username"
+        />
+        <Input
+          register={register}
+          errors={errors}
+          name="password"
+          type="password"
+          placeholder="***********"
+        />
       </fieldset>
 
-      <button
-        className="bg-blue hover:bg-blue-dark text-black font-bold py-2 px-4 rounded"
-        type="submit"
-      >
-        Sign In
-      </button>
+      <SubmitButton text="Sign In" />
+
       <a
         className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker"
         href="#"

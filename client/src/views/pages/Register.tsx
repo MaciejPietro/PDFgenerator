@@ -1,16 +1,9 @@
 import { useState } from "react";
-// import { string } from "yup/lib/locale";
 import { connect } from "react-redux";
-
-import RegisterForm from "../components/forms/RegisterFrom";
-
+import { Link } from "react-router-dom";
 import { register } from "../../redux/actions/authActions";
-
-interface UserRegisterData {
-  username: string;
-  email: string;
-  password: string;
-}
+import RegisterForm from "../components/forms/RegisterFrom";
+import { IUserRegisterData } from "../../interfaces/user";
 
 interface IProps {
   registerConnect: (payload: any) => any;
@@ -19,22 +12,16 @@ interface IProps {
 function Register({ registerConnect }: IProps) {
   const [alert, setAlert] = useState("");
 
-  // const [userInfo, setUserInfo] = useState({
-  //   username: "",
-  //   password: "",
-  //   email: "",
-  // });
-
-  function submitForm(data: UserRegisterData) {
+  function submitForm(data: IUserRegisterData) {
     const res = registerConnect(data);
-    res.then((res) => setAlert(res));
+    res.then((res: any) => setAlert(res));
   }
 
   return (
     <>
       <div>{alert}</div>
-
       <RegisterForm submitForm={submitForm} />
+      <Link to="/register">Log In</Link>
     </>
   );
 }

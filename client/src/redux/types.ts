@@ -1,3 +1,5 @@
+// import { IArtistDetailsData } from "../interfaces/user";
+
 export interface ICurrent {
   username: string | null;
   isAuthenticated: boolean | null;
@@ -7,3 +9,5 @@ export interface ICurrent {
 export interface IUser {
   username: string | null;
 }
+
+// export type IArtist = IArtistDetailsData;

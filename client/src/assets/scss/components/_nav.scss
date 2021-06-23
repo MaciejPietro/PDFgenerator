@@ -1,11 +1,29 @@
-.nav {
-  @apply fixed border-2 top-0 left-0;
+.sidebar {
+  @apply bg-white w-16 h-screen border-r-2 border-gray-500 fixed left-0 top-0 flex flex-col;
+  transition: width 0.32s ease 0.12s;
 
-  &:first-of-type {
-    @apply w-full h-16 border-red-500 flex justify-items-end;
+  &.active {
+    @apply w-60;
+    transition: width 0.32s;
+
+    .sidebar__toggler {
+      svg:first-of-type {
+        @apply hidden;
+      }
+
+      svg:last-of-type {
+        @apply block;
+      }
+    }
+
+    .sidebar__link-name {
+      @apply opacity-100;
+      transition: opacity 0.22s ease 0.12s;
+    }
   }
 
-  &:last-of-type {
-    @apply w-16 h-screen border-blue-600 flex items-center;
+  &__link-name {
+    @apply ml-2 font-medium text-sm text-blue-900 absolute ml-8 opacity-0;
+    transition: opacity 0.22s;
   }
 }

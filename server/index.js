@@ -23,14 +23,22 @@ mongoose
   )
   .catch((err) => console.log(err))
 
-User.findOne({ name: 'user' }, function (err, docs) {
+User.findOne({ username: 'user' }, function (err, docs) {
   if (docs) {
     console.log('Name exists already')
   } else {
     const user = new User({
-      name: 'user',
-      password: 'password',
+      username: 'user',
+      password: 'password1',
       email: 'maciejwsrh97@wp.pl',
+      artistDetails: {
+        name: 'Maciej',
+        surname: 'Pietro',
+        stageName: 'Empe Beats',
+        email: 'maciejwsrh97@wp.pl',
+        country: 'Poland',
+        localization: 'wyrzysk',
+      },
     })
 
     user.save()

@@ -4,7 +4,7 @@ const User = require('../models/user')
 routes.post('/auth', (req, res) => {
   User.findOne(
     {
-      name: req.body.name,
+      username: req.body.username,
       password: req.body.password,
     },
     function (err, user) {
@@ -18,7 +18,7 @@ routes.post('/auth', (req, res) => {
 routes.post('/findByName', (req, res) => {
   User.findOne(
     {
-      name: req.body.name,
+      username: req.body.name,
     },
     function (err, user) {
       if (err) return res.status(500).send(err)
@@ -44,7 +44,7 @@ routes.post('/findByEmail', (req, res) => {
 routes.post('/register', ({ body }, res) => {
   User.create(
     {
-      name: body.name,
+      username: body.name,
       password: body.password,
       email: body.email,
     },
@@ -54,6 +54,45 @@ routes.post('/register', ({ body }, res) => {
       return res.status(200).send(response)
     },
   )
+})
+
+routes.get('/artist-details/:username', async ({ params }, res) => {
+  await User.findOne(
+    {
+      username: params.username,
+    },
+    function (err, user) {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+      return res.status(200).send(user.artistDetails)
+    },
+  )
+})
+
+routes.patch('/update-user', (req, res) => {
+  console.log(req.body.data)
+
+  User.findOneAndUpdate(
+    { username: req.body.username },
+    { $set: req.body.data },
+    { useFindAndModify: false },
+    (err, user) => {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+      return res.status(200).send(true)
+    },
+  )
+
+  // User.findOne(s
+  //   {
+  //     username: params.username,
+  //   },
+  //   function (err, user) {
+  //     if (err) return res.status(500).send(err)
+  //     if (!user) return res.status(200).send(false)
+  //     return res.status(200).send(user.artistDetails)
+  //   },
+  // )
 })
 
 module.exports = routes

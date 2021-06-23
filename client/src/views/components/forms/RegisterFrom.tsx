@@ -1,14 +1,12 @@
 import { useState, useRef } from "react";
-import Input from "../../partials/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Input from "../../partials/Input";
+import SubmitButton from "../../partials/SubmitButton";
+
 import * as yup from "yup";
 
-interface IFormInputs {
-  username: string;
-  email: number;
-  password: string;
-}
+import { IUserRegisterData } from "../../../interfaces/user";
 
 const schema = yup.object().shape({
   email: yup
@@ -30,95 +28,47 @@ const schema = yup.object().shape({
 });
 
 function Register(props: any) {
-  // const repeatedPassword: React.MutableRefObject<any> = useRef();
-  // const [userInfo, setUserInfo] = useState({
-  //   username: "",
-  //   password: "",
-  //   email: "",
-  // });
-
-  // const checkPasswords = () =>
-  //   userInfo.password === repeatedPassword.current.value;
-
-  // const handleSubmit = (ev) => {
-  //   ev.preventDefault();
-  //   console.log(userInfo.username);
-  //   // props.submitForm(userInfo);
-  //   // console.log("register submit", checkPasswords());
-  // };
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInputs>({
+  } = useForm<IUserRegisterData>({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data: IFormInputs) => {
+  const onSubmit = (data: IUserRegisterData) => {
     props.submitForm(data);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <fieldset>
-        <label>
-          Username
-          <input {...register("username")} />
-          <p>{errors.username?.message}</p>
-        </label>
-
-        <label>
-          Email
-          <input {...register("email")} />
-          <p>{errors.username?.message}</p>
-        </label>
-
-        <label>
-          Password
-          <input {...register("password")} />
-          <p>{errors.password?.message}</p>
-        </label>
-        {/* <Input lable="Username" /> */}
-
-        {/* <Input
+        <Input
+          register={register}
+          errors={errors}
           name="username"
           type="text"
           placeholder="Username"
-          setUsername={(e: any) =>
-            setUserInfo({ ...userInfo, username: e.target.value })
-          }
-        /> */}
+        />
 
-        {/* <label className="block text-grey-darker text-sm font-bold mb-2">
-          Password
-          <input
-            className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
-            ref={repeatedPassword}
-            type="text"
-            placeholder="******************"
-          />
-        </label>
+        <Input
+          register={register}
+          errors={errors}
+          name="email"
+          type="email"
+          placeholder="Email"
+        />
 
-        <label className="block text-grey-darker text-sm font-bold mb-2">
-          Repeat password
-          <input
-            className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
-            id="repeat-password"
-            type="text"
-            placeholder="******************"
-            onChange={(e) =>
-              setUserInfo({ ...userInfo, password: e.target.value })
-            }
-          />
-        </label> */}
+        <Input
+          register={register}
+          errors={errors}
+          name="password"
+          type="password"
+          placeholder="***********"
+        />
       </fieldset>
 
-      <button
-        className="bg-blue hover:bg-blue-dark text-black font-bold py-2 px-4 rounded"
-        type="submit"
-      >
-        Register
-      </button>
+      <SubmitButton text="Register" />
+
       <a
         className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker"
         href="#"

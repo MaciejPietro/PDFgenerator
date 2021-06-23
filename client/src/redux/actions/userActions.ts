@@ -1,25 +1,43 @@
 import { ThunkDispatch as Dispatch } from "redux-thunk";
 import * as constants from "../constants";
+import axios from "axios";
 
-export interface ICheckUser {
-  type: constants.CHECKUSER;
+export interface IArtistDetails {
+  type: constants.ARTISTDETAILS;
+  data: any;
 }
 
-export type UserAction = ICheckUser;
-
-function setUserName(): ICheckUser {
+export function setArtistDetails(data: any): IArtistDetails {
   return {
-    type: constants.CHECKUSER,
+    type: constants.ARTISTDETAILS,
+    data: data,
   };
 }
 
-export function checkUser() {
-  return (dispatch: Dispatch<UserAction, {}, any>) => {
-    const auth = window.localStorage.getItem("authenticated");
-    const formattedAuth = typeof auth === "string" ? JSON.parse(auth) : null;
-
-    if (formattedAuth) {
-      dispatch(setUserName());
-    }
+export function updateArtistDetailsStore() {
+  return (dispatch: Dispatch<IArtistDetails, {}, any>) => {
+    const name = window.localStorage.getItem("username");
+    return axios.get(`/api/artist-details/${name}`).then((res) => {
+      if (res.data) {
+        dispatch(setArtistDetails(res.data));
+        return res.data;
+      } else {
+        return "No such artist";
+      }
+    });
   };
+}
+
+export function updateAccountDetailsStore() {
+  // return (dispatch: Dispatch<IArtistDetails, {}, any>) => {
+  //   const name = window.localStorage.getItem("username");
+  //   return axios.get(`/api/artist-details/${name}`).then((res) => {
+  //     if (res.data) {
+  //       dispatch(setArtistDetails(res.data));
+  //       return res.data;
+  //     } else {
+  //       return "No such artist";
+  //     }
+  //   });
+  // };
 }

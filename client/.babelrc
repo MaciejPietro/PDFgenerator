@@ -4,7 +4,11 @@
     "@babel/preset-react",
     "@babel/preset-typescript"
   ],
-  "plugins": ["react-hot-loader/babel", "@babel/plugin-transform-runtime"],
+  "plugins": [
+    "react-hot-loader/babel",
+    "@babel/plugin-transform-runtime",
+    "inline-react-svg"
+  ],
   "env": {
     "production": {
       "presets": ["minify"]

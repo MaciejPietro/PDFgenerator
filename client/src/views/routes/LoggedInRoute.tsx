@@ -8,8 +8,9 @@ import { ICurrent } from "../../interfaces/types";
 interface IProps {
   exact?: boolean;
   isAuthenticated: boolean | null;
-  path: string;
+  path: string | string[];
   component: React.ComponentType<any>;
+  children?: any;
 }
 
 const LoggedInRoute = ({

@@ -2,7 +2,7 @@ import { ThunkDispatch as Dispatch } from "redux-thunk";
 import axios from "axios";
 import * as constants from "../constants";
 
-import { UserRegisterData } from "../../interfaces/types";
+import { IUserRegisterData } from "../../interfaces/user";
 
 export interface IAuthenticate {
   type: constants.AUTHENTICATE;
@@ -33,11 +33,11 @@ function unauthenticate(): IUnauthenticate {
 
 export type AuthenticationAction = IAuthenticate | IUnauthenticate;
 
-export function register(payload: UserRegisterData) {
+export function register(payload: IUserRegisterData) {
   return () => {
     const { username, email, password } = payload;
     const existsName = axios
-      .post("/api/findByName", { name: username })
+      .post("/api/findByName", { username: username })
       .then((res) => {
         return res.data;
       });
@@ -68,14 +68,14 @@ export function register(payload: UserRegisterData) {
 }
 export function logIn(payload: any) {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
-    const { name, password } = payload;
+    const { username, password } = payload;
     return axios
-      .post("/api/auth", { name: name, password: password })
+      .post("/api/auth", { username: username, password: password })
       .then((res) => {
         if (res.data) {
-          dispatch(authenticate(name));
+          dispatch(authenticate(username));
           window.localStorage.setItem("authenticated", "true");
-          window.localStorage.setItem("username", name);
+          window.localStorage.setItem("username", username);
 
           return false;
         } else {
@@ -87,7 +87,6 @@ export function logIn(payload: any) {
 
 export function logOut() {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
-    console.log("sss");
     window.localStorage.setItem("authenticated", "false");
     window.localStorage.setItem("username", "false");
 

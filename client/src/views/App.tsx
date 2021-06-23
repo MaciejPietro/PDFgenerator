@@ -5,26 +5,22 @@ import { Route, Router } from "react-router-dom";
 import "../assets/scss/app-base.scss";
 import "../assets/scss/app-components.scss";
 import "../assets/scss/app-utilities.scss";
-// import "../assets/scss/App.scss";
 
 import history from "./history";
 import Nav from "./components/Nav";
 import Pages from "./routes/Pages";
 import { checkAuthentication } from "../redux/actions/authActions";
-import { checkUser } from "../redux/actions/userActions";
 
 import { ICurrent } from "../redux/types";
 
 interface IProps {
   checkAuthenticationConnect: () => void;
   isAuthenticated: boolean | null;
-  checkUserConnect: () => void;
 }
 
-const App = ({ checkAuthenticationConnect, checkUserConnect }: IProps) => {
+const App = ({ checkAuthenticationConnect }: IProps) => {
   React.useEffect(() => {
     checkAuthenticationConnect();
-    checkUserConnect();
   }, []);
 
   return (
@@ -45,7 +41,6 @@ const mapStateToProps = (state: ICurrent) => ({
 
 const mapDispatchToProps = {
   checkAuthenticationConnect: checkAuthentication,
-  checkUserConnect: checkUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,19 +1,28 @@
-import { ICheckUser } from "../actions/userActions";
-import { CHECKUSER } from "../constants";
-import { IUser } from "../types";
+import { IArtistDetails } from "../actions/userActions";
+import { ARTISTDETAILS } from "../constants";
+import { IArtistDetailsData } from "../../interfaces/user";
 
 export default function userReducer(
-  state: IUser = {
-    username: null,
+  state: IArtistDetailsData = {
+    name: null,
+    surname: null,
+    stageName: null,
+    email: null,
+    country: null,
+    localization: null,
   },
-  action: ICheckUser,
-): IUser {
+  action: IArtistDetails,
+): IArtistDetailsData {
   switch (action.type) {
-    case CHECKUSER:
-      console.log("boolce");
+    case ARTISTDETAILS:
       return {
         ...state,
-        username: "placeholder-uuid",
+        name: action.data.name,
+        surname: action.data.surname,
+        stageName: action.data.stageName,
+        email: action.data.email,
+        country: action.data.country,
+        localization: action.data.localization,
       };
   }
   return state;

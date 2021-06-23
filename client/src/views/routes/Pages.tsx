@@ -8,8 +8,8 @@ import Templates from "../pages/Templates";
 import Settings from "../pages/Settings";
 import LogIn from "../pages/LogIn";
 import Register from "../pages/Register";
+import Landing from "../pages/Landing";
 
-import Landing from "../components/Landing";
 import LogOut from "../components/LogOut";
 import NotFound from "../components/NotFound";
 import Terms from "../components/Terms";
@@ -28,10 +28,14 @@ const Pages = () => {
       <LoggedInRoute path="/log-out" exact={true} component={LogOut} />
       <LoggedInRoute path="/dashboard" exact={true} component={Dashboard} />
       <LoggedInRoute path="/templates" exact={true} component={Templates} />
-      <LoggedInRoute path="/settings" exact={true} component={Settings} />
+      <LoggedInRoute
+        path={["/settings", "/settings/account"]}
+        exact={true}
+        component={Settings}
+      />
 
       <Route path="/terms" exact={true} component={Terms} />
-      <Route component={NotFound} />
+      {/* <Route component={NotFound} /> */}
     </Switch>
   );
 };

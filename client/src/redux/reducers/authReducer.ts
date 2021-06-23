@@ -11,7 +11,6 @@ export default function authReducer(
 ): ICurrent {
   switch (action.type) {
     case AUTHENTICATE:
-      console.log("boco", action.username);
       return {
         ...state,
         username: action.username,
