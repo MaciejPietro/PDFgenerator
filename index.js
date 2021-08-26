@@ -56,10 +56,10 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-// app.use(express.static(path.resolve(__dirname, './client/dist')))
-// app.get('*', function (request, response) {
-//   response.sendFile(path.resolve(__dirname, './client/dist', 'index.html'))
-// })
+app.use(express.static(path.resolve(__dirname, './client/dist')))
+app.get('*', function (request, response) {
+  response.sendFile(path.resolve(__dirname, './client/dist', 'index.html'))
+})
 
 // app.post('/api/create-pdf', (req, res) => {
 //   pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
