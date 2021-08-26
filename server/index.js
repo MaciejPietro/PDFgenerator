@@ -1,8 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const pdf = require('html-pdf')
+// const pdf = require('html-pdf')
 const cors = require('cors')
-const pdfTemplate = require('./documents')
+// const pdfTemplate = require('./documents')
+require('dotenv').config()
 
 const routes = require('./routes')
 
@@ -12,10 +13,14 @@ const User = require('./models/user')
 const app = express()
 const port = process.env.PORT || 5000
 
-const DBUrl =
-  'mongodb+srv://empedev:house@09!@cluster0.2ctml.mongodb.net/PDFgen?retryWrites=true&w=majority'
+// const DBUrl =
+//   'mongodb+srv://empedev:house@09!@cluster0.2ctml.mongodb.net/PDFgen?retryWrites=true&w=majority'
+// console.log(process.env.MONGODB_CONNECTION_STRING, DBUrl)
 mongoose
-  .connect(DBUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGODB_CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then((res) =>
     app.listen(port, () => {
       console.log(`Example app listening at http://localhost:${port}`)
@@ -48,6 +53,12 @@ User.findOne({ username: 'user' }, function (err, docs) {
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+
+app.use(express.static(path.resolve(__dirname, './client/dist')))
+// Step 2:
+app.get('*', function (request, response) {
+  response.sendFile(path.resolve(__dirname, './client/dist', 'index.html'))
+})
 
 // app.post('/api/create-pdf', (req, res) => {
 //   pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
