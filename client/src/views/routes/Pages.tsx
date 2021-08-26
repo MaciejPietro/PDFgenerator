@@ -5,6 +5,8 @@ import { Route, Switch } from "react-router-dom";
 import About from "../components/About";
 import Dashboard from "../pages/Dashboard";
 import Templates from "../pages/Templates";
+import Clients from "../pages/Clients";
+
 import Settings from "../pages/Settings";
 import LogIn from "../pages/LogIn";
 import Register from "../pages/Register";
@@ -28,14 +30,15 @@ const Pages = () => {
       <LoggedInRoute path="/log-out" exact={true} component={LogOut} />
       <LoggedInRoute path="/dashboard" exact={true} component={Dashboard} />
       <LoggedInRoute path="/templates" exact={true} component={Templates} />
+      <LoggedInRoute path="/clients" exact={true} component={Clients} />
+
       <LoggedInRoute
         path={["/settings", "/settings/account"]}
-        exact={true}
         component={Settings}
       />
 
       <Route path="/terms" exact={true} component={Terms} />
-      {/* <Route component={NotFound} /> */}
+      <Route component={NotFound} />
     </Switch>
   );
 };

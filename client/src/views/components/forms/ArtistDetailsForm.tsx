@@ -19,9 +19,9 @@ const schema = yup.object().shape({
 });
 
 function ArtistDetailsForm({ details, submitForm }: any) {
-  useEffect(() => {
-    console.log("Child", details);
-  }, [details]);
+  // useEffect(() => {
+
+  // }, [details]);
 
   const {
     register,

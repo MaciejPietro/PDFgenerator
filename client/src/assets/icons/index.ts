@@ -8,6 +8,7 @@ import ClockIcon from "./clock.svg";
 import ClientsIcon from "./clients.svg";
 import SlideInBarsIcon from "./slide-in-bars.svg";
 import SlideOutBarsIcon from "./slide-out-bars.svg";
+import Chevron from "./chevron.svg";
 
 export {
   LogoutIcon,
@@ -19,4 +20,5 @@ export {
   ClientsIcon,
   SlideInBarsIcon,
   SlideOutBarsIcon,
+  Chevron,
 };

@@ -9,3 +9,6 @@ export type CHECKUSER = typeof CHECKUSER;
 
 export const ARTISTDETAILS = "ARTISTDETAILS";
 export type ARTISTDETAILS = typeof ARTISTDETAILS;
+
+export const ACCOUNTDETAILS = "ACCOUNTDETAILS";
+export type ACCOUNTDETAILS = typeof ACCOUNTDETAILS;

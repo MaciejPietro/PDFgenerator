@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { IUserLoginData } from "../../../interfaces/user";
+import { IUserLoginData } from "../../../redux/types";
 
 import Input from "../../partials/Input";
 import SubmitButton from "../../partials/SubmitButton";

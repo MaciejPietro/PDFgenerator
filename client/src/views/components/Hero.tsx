@@ -1,26 +1,16 @@
-import Blogging from "./animations/Blogging";
+import { useState, useEffect } from "react";
 
-const Hero = () => {
-  return (
-    <section className="hero">
-      <div className="hero__content">
-        <h2>Lakes</h2>
-        <p>
-          A river is a natural flowing watercourse, usually freshwater, flowing
-          towards an ocean, sea, lake or another river. In some cases a river
-          flows into the ground and becomes dry at the end of its course without
-          reaching another body of water.
-        </p>
-      </div>
-      <div className="hero__img">
-        <div className="hero__img__inner">
-          <Blogging />
-        </div>
-      </div>
-      <div className="hero__more"></div>
-      <div className="hero__facts"></div>
-    </section>
-  );
+import { Chevron } from "../../assets/icons";
+
+const headings = ["Create", "Sign", "Earn"];
+const texts = [
+  "When you have just produced new piece of music and want to sell it online, there is no better place to do this by the site. Lorem ipsum dolor sit amet.",
+  "Sign licension agreement documents using templates, download it on drive or send it directly to client. Lorem ipsum dolor sit amet.",
+  "Earn legal money and have everything documented and listed in our panel you will have access after signing in. Lorem ipsum dolor sit amet.",
+];
+
+const Hero: React.FC = () => {
+  return <section>SIema</section>;
 };
 
 export default Hero;

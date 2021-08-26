@@ -1,12 +1,29 @@
-.sidebar {
+.leftbar {
   @apply bg-white w-16 h-screen border-r-2 border-gray-500 fixed left-0 top-0 flex flex-col;
   transition: width 0.32s ease 0.12s;
+
+  &__link {
+    @apply flex items-center p-3 hover:bg-gray-200 rounded transition-colors overflow-hidden;
+
+    &__name {
+      @apply font-medium text-sm text-blue-900 absolute ml-8 opacity-0;
+      transition: opacity 0.22s;
+    }
+  }
+
+  &__rollup-icon {
+    @apply mt-auto ml-auto mr-2;
+
+    &__icon {
+      @apply w-12 h-12 flex justify-center items-center cursor-pointer relative;
+    }
+  }
 
   &.active {
     @apply w-60;
     transition: width 0.32s;
 
-    .sidebar__toggler {
+    .leftbar__rollup-icon {
       svg:first-of-type {
         @apply hidden;
       }
@@ -16,14 +33,25 @@
       }
     }
 
-    .sidebar__link-name {
+    .leftbar__link__name {
       @apply opacity-100;
       transition: opacity 0.22s ease 0.12s;
     }
   }
+}
 
-  &__link-name {
-    @apply ml-2 font-medium text-sm text-blue-900 absolute ml-8 opacity-0;
-    transition: opacity 0.22s;
+.topbar {
+  @apply flex items-center h-16 top-0 fixed w-full;
+
+  &--authenticated {
+    @apply border-gray-500 bg-white sticky border-b-2;
+  }
+
+  &__container {
+    @apply ml-auto p-3 flex items-center;
+
+    &__icon {
+      @apply w-10 h-10 border border-gray-700 rounded flex justify-center items-center text-black-default transition-colors hover:bg-gray-300 cursor-pointer mr-2 ml-6;
+    }
   }
 }

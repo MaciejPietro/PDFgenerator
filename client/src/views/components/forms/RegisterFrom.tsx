@@ -1,4 +1,3 @@
-import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "../../partials/Input";
@@ -6,7 +5,7 @@ import SubmitButton from "../../partials/SubmitButton";
 
 import * as yup from "yup";
 
-import { IUserRegisterData } from "../../../interfaces/user";
+import { IUserRegisterData } from "../../../redux/types";
 
 const schema = yup.object().shape({
   email: yup

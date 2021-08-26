@@ -19,5 +19,8 @@
  * Include styles for individual pages
  *
  */
+
+@import "./partials/stars.scss";
+
 @import "./components/nav.scss";
-@import "./components/hero.scss";
+@import "./components/clients.scss";

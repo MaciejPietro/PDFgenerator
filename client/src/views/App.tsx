@@ -3,15 +3,15 @@ import { connect } from "react-redux";
 import { Route, Router } from "react-router-dom";
 
 import "../assets/scss/app-base.scss";
-import "../assets/scss/app-components.scss";
 import "../assets/scss/app-utilities.scss";
+import "../assets/scss/app-components.scss";
 
 import history from "./history";
 import Nav from "./components/Nav";
 import Pages from "./routes/Pages";
 import { checkAuthentication } from "../redux/actions/authActions";
 
-import { ICurrent } from "../redux/types";
+import { ICurrentUser } from "../redux/types";
 
 interface IProps {
   checkAuthenticationConnect: () => void;
@@ -35,7 +35,7 @@ const App = ({ checkAuthenticationConnect }: IProps) => {
   );
 };
 
-const mapStateToProps = (state: ICurrent) => ({
+const mapStateToProps = (state: ICurrentUser) => ({
   isAuthenticated: state.isAuthenticated,
 });
 

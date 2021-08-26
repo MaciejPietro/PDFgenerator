@@ -1,9 +1,9 @@
-import * as React from "react";
+import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 
 import history from "../history";
-import { ICurrent } from "../../interfaces/types";
+import { ICurrentUser } from "../../redux/types";
 
 interface IProps {
   exact?: boolean;
@@ -17,7 +17,7 @@ const LoggedOutRoute = ({
   isAuthenticated,
   ...otherProps
 }: IProps) => {
-  React.useEffect(() => {
+  useEffect(() => {
     if (isAuthenticated === true) {
       history.push("/dashboard");
     }
@@ -38,7 +38,7 @@ const LoggedOutRoute = ({
   );
 };
 
-const mapStateToProps = (state: ICurrent) => ({
+const mapStateToProps = (state: ICurrentUser) => ({
   isAuthenticated: state.isAuthenticated,
 });
 

@@ -7,7 +7,7 @@ import SubmitButton from "../../partials/SubmitButton";
 import * as yup from "yup";
 import axios from "axios";
 
-import { IArtistDetailsData } from "../../../interfaces/user";
+import { IUserRegisterData } from "../../../redux/types";
 
 const schema = yup.object().shape({
   username: yup.string(),
@@ -16,25 +16,23 @@ const schema = yup.object().shape({
 });
 
 function AccountDetailsForm({ details, submitForm }: any) {
-  // useEffect(() => {
-  //   console.log("Child", details);
-  // }, [details]);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IArtistDetailsData>({
+  } = useForm<IUserRegisterData>({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data: IArtistDetailsData) => {
-    // Object.keys(data).forEach((key) => {
-    //   if (data[key] != "") {
-    //     data[`artistDetails.${key}`] = data[key];
-    //   }
-    //   delete data[key];
-    // });
-    // submitForm(data);
+  const onSubmit = (data: IUserRegisterData) => {
+    //TODO make mixin
+    Object.keys(data).forEach((key) => {
+      if (data[key] != "") {
+        return (data[key] = data[key]);
+      }
+      delete data[key];
+    });
+
+    submitForm(data);
   };
 
   return (
@@ -52,10 +50,10 @@ function AccountDetailsForm({ details, submitForm }: any) {
         <Input
           register={register}
           errors={errors}
-          name="username"
+          name="password"
           type="text"
           placeholder="Password"
-          value={details?.surname}
+          value={details?.password}
         />
 
         <Input

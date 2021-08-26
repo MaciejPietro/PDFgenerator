@@ -1,7 +1,7 @@
 import Breadcrumbs from "../components/Breadcrumbs";
 
-import ArtistDetails from "../components/settings/ArtistDetails";
-import AccountDetails from "../components/settings/AccountDetails";
+// import ArtistDetails from "../components/settings/UserDetails";
+import UserDetails from "../components/settings/UserDetails";
 
 import { NavLink, Switch, Route, Redirect } from "react-router-dom";
 
@@ -11,8 +11,8 @@ const Settings = (props: any) => {
 
   return (
     <section>
-      <Breadcrumbs />
       <div className="container">
+        <Breadcrumbs />
         <h1 className="mb-8">Settings</h1>
         <div className="flex items-start">
           <div className="w-60 rounded border border-gray-500 bg-white mr-8 flex-shrink-0">
@@ -26,8 +26,33 @@ const Settings = (props: any) => {
 
           <div className="border-2 border-red-600">
             <Switch>
-              <Route path="/settings" exact={true} component={ArtistDetails} />
-              <Route path="/settings/account" component={AccountDetails} />
+              <Route
+                path="/settings"
+                exact={true}
+                component={() => {
+                  return (
+                    <UserDetails type="artist">
+                      <div>
+                        <h2>Artist details</h2>
+                        <h3>Here are your artistic details</h3>
+                      </div>
+                    </UserDetails>
+                  );
+                }}
+              />
+              <Route
+                path="/settings/account"
+                component={() => {
+                  return (
+                    <UserDetails type="account">
+                      <div>
+                        <h2>Your details</h2>
+                        <h3>Here are your account details</h3>
+                      </div>
+                    </UserDetails>
+                  );
+                }}
+              ></Route>
             </Switch>
           </div>
         </div>

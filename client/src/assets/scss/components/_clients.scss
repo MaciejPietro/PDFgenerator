@@ -1,0 +1,13 @@
+.clients {
+  &__add {
+    &__form {
+      @apply absolute top-12 left-0 bg-white border-2 border-black-default p-8 opacity-0;
+    }
+
+    &--active {
+      .clients__add__form {
+        @apply opacity-100;
+      }
+    }
+  }
+}

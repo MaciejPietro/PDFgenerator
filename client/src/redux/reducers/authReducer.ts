@@ -1,14 +1,14 @@
 import { IAuthenticate, IUnauthenticate } from "../actions/authActions";
 import { AUTHENTICATE, UNAUTHENTICATE } from "../constants";
-import { ICurrent } from "../types";
+import { ICurrentUser } from "../types";
 export default function authReducer(
-  state: ICurrent = {
+  state: ICurrentUser = {
     uuid: null,
     isAuthenticated: false,
     username: null,
   },
   action: IAuthenticate | IUnauthenticate,
-): ICurrent {
+): ICurrentUser {
   switch (action.type) {
     case AUTHENTICATE:
       return {

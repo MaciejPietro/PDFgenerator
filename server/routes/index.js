@@ -56,7 +56,7 @@ routes.post('/register', ({ body }, res) => {
   )
 })
 
-routes.get('/artist-details/:username', async ({ params }, res) => {
+routes.get('/user/:username', async ({ params }, res) => {
   await User.findOne(
     {
       username: params.username,
@@ -64,14 +64,25 @@ routes.get('/artist-details/:username', async ({ params }, res) => {
     function (err, user) {
       if (err) return res.status(500).send(err)
       if (!user) return res.status(200).send(false)
-      return res.status(200).send(user.artistDetails)
+      return res.status(200).send(user)
     },
   )
 })
 
-routes.patch('/update-user', (req, res) => {
-  console.log(req.body.data)
+// routes.get('/user/:username', async ({ params }, res) => {
+//   await User.findOne(
+//     {
+//       username: params.username,
+//     },
+//     function (err, user) {
+//       if (err) return res.status(500).send(err)
+//       if (!user) return res.status(200).send(false)
+//       return res.status(200).send(user.artistDetails)
+//     },
+//   )
+// })
 
+routes.patch('/update-user', (req, res) => {
   User.findOneAndUpdate(
     { username: req.body.username },
     { $set: req.body.data },

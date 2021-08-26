@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { register } from "../../redux/actions/authActions";
 import RegisterForm from "../components/forms/RegisterFrom";
-import { IUserRegisterData } from "../../interfaces/user";
+import { IUserRegisterData } from "../../redux/types";
 
 interface IProps {
   registerConnect: (payload: any) => any;

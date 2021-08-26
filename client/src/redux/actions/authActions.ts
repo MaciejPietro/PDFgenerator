@@ -2,7 +2,7 @@ import { ThunkDispatch as Dispatch } from "redux-thunk";
 import axios from "axios";
 import * as constants from "../constants";
 
-import { IUserRegisterData } from "../../interfaces/user";
+import { IUserRegisterData } from "../../redux/types";
 
 export interface IAuthenticate {
   type: constants.AUTHENTICATE;

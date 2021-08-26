@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { IUserLoginData } from "../../interfaces/user";
+import { IUserLoginData } from "../../redux/types";
+import { useHistory } from "react-router";
 
 import LoginForm from "../components/forms/LoginForm";
 
@@ -13,10 +14,17 @@ interface IProps {
 
 const LogIn = ({ logInConnect }: IProps) => {
   const [alert, setAlert] = useState("");
+  const history = useHistory();
 
   function submitForm(data: IUserLoginData) {
     logInConnect(data).then((res: any) => {
-      setAlert(res);
+      const success = !res;
+
+      if (success) {
+        history.push("/dashboard");
+      } else {
+        setAlert(res);
+      }
     });
   }
 
