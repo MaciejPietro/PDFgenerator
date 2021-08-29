@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "html-pdf": "^3.0.0",
     "mongoose": "^5.12.13",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "webpack": "^5.51.1"
   }
 }
