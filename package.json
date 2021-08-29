@@ -27,5 +27,8 @@
     "mongoose": "^5.12.13",
     "rimraf": "^3.0.2",
     "webpack": "^5.51.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.8.0"
   }
 }
