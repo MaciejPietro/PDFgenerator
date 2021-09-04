@@ -15,11 +15,13 @@ const User = require('./models/user')
 const app = express()
 const port = process.env.PORT || 5000
 
-// const DBUrl =
-//   'mongodb+srv://empedev:house@09!@cluster0.2ctml.mongodb.net/PDFgen?retryWrites=true&w=majority'
+console.log(process.env.MONGODB_CONNECTION_STRING)
+
+const DBUrl =
+  'mongodb+srv://empedev:house@09!@cluster0.2ctml.mongodb.net/PDFgen?retryWrites=true&w=majority'
 // console.log(process.env.MONGODB_CONNECTION_STRING, DBUrl)
 mongoose
-  .connect(process.env.MONGODB_CONNECTION_STRING, {
+  .connect(process.env.MONGODB_CONNECTION_STRING || DBUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
