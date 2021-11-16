@@ -5,7 +5,6 @@ import Input from "../../partials/Input";
 import SubmitButton from "../../partials/SubmitButton";
 
 import * as yup from "yup";
-import axios from "axios";
 
 import { IUserRegisterData } from "../../../redux/types";
 

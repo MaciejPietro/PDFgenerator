@@ -21,6 +21,7 @@ module.exports = merge(commonConfig, {
       "/api": "http://localhost:5000",
     },
   },
+  target: "web",
   devtool: "cheap-module-source-map",
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // enable HMR globally

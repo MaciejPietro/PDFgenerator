@@ -8,11 +8,7 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      black: {
-        default: "#1F2E4D",
-        dark: "#162139",
-        darkest: "#000",
-      },
+      black: "#000",
       white: "#fff",
       gray: {
         100: "#FAFAFA",
@@ -39,14 +35,14 @@ module.exports = {
       },
       blue: {
         100: "#EBF1FF",
-        200: "#EAEEFF",
+        200: "#E6EDF5",
         300: "#A4AFC6",
-        400: "#738ADE",
+        400: "#478CCE",
         500: "#5590EA",
         600: "#2D60CA",
         700: "#16439F",
         800: "#324589",
-        900: "#6A7794",
+        900: "#143F66",
       },
     },
     fontSize: {
@@ -55,12 +51,12 @@ module.exports = {
       base: "1rem",
       lg: "1.125rem",
       "2xl": "6rem",
-      // "2xl": "1.5rem",
-      // "3xl": "1.875rem",
-      // "4xl": "2.25rem",
-      // "5xl": "3rem",
-      // "6xl": "4rem",
-      // "7xl": "5rem",
+      "2xl": "1.5rem",
+      "3xl": "1.875rem",
+      "4xl": "2.25rem",
+      "5xl": "3rem",
+      "6xl": "4rem",
+      "7xl": "5rem",
     },
     fontFamily: {
       sans: ["Rubik", "sans-serif"],
@@ -74,6 +70,9 @@ module.exports = {
       textOpacity: ["disabled"],
       textColor: ["disabled"],
     },
+  },
+  corePlugins: {
+    container: false,
   },
   plugins: [],
 };

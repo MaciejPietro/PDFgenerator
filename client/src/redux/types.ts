@@ -1,16 +1,14 @@
 // import { IArtistDetailsData } from "../interfaces/user";
 
 export interface ICurrentUser {
-  username: string | null;
-  isAuthenticated: boolean | null;
-  uuid: string | null;
+  userID: string | null;
+  // isAuthenticated: boolean | null;
+  // uuid: string | null;
 }
 
 export interface IUser {
   username: string | null;
 }
-
-// export type IArtist = IArtistDetailsData;
 
 export interface IUserRegisterData {
   username: string;
@@ -32,16 +30,26 @@ export interface IArtistDetailsData {
   localization: string | null;
 }
 
-export interface IUserStoreState {
+export interface IAccountStore {
   account: IUserRegisterData;
   artist: IArtistDetailsData;
 }
 
 export interface IClientData {
-  // image_id: number | null;
+  _id: string | null;
   name: string | null;
+  realname: string | null;
+  country: string | null;
   email: string | null;
-  profession: string | null;
-  sold_sum_in_pln: number | null;
-  rate_to_five: number | null;
+  profession?: string | null;
+  rate?: number | null;
+  image?: any;
+  imageKey?: string | null;
+}
+
+export interface ISaleBeat {
+  beatName: string | null;
+  currency: string | null;
+  licension: string | null;
+  client: IClientData | null;
 }

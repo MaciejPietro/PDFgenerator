@@ -17,29 +17,28 @@ const LeftBar = ({ isAuthenticated }: IProps) => {
   return (
     <nav className="leftbar">
       <ul className="mt-16 px-2 text-gray-900">
-        <LeftBarLink name="dashboard">
-          <LandingIcon />
-        </LeftBarLink>
-
         {isAuthenticated ? (
           <>
-            <LeftBarLink name="templates">
+            <LeftBarLink name="/dashboard">
+              <LandingIcon />
+            </LeftBarLink>
+            <LeftBarLink name="/templates">
               <TemplatesIcon />
             </LeftBarLink>
-            <LeftBarLink name="clients">
+            <LeftBarLink name="/clients">
               <ClientsIcon />
             </LeftBarLink>
-            <LeftBarLink name="transactions">
+            <LeftBarLink name="/transactions">
               <ClockIcon />
             </LeftBarLink>
-            <LeftBarLink name="settings">
+            <LeftBarLink name="/settings">
               <SettingsIcon />
             </LeftBarLink>
           </>
         ) : (
           <>
-            <LeftBarLink name="about">
-              <ClientsIcon />
+            <LeftBarLink name="/">
+              <LandingIcon />
             </LeftBarLink>
           </>
         )}

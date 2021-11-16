@@ -1,18 +1,20 @@
 const routes = require('express').Router()
 const User = require('../models/user')
 
+const fs = require('fs')
+const util = require('util')
+const unlinkFile = util.promisify(fs.unlink)
+
+const { uploadFile, getFileStream, getObject, deleteFile } = require('../s3')
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 routes.post('/auth', (req, res) => {
-  User.findOne(
-    {
-      username: req.body.username,
-      password: req.body.password,
-    },
-    function (err, user) {
-      if (err) return res.status(500).send(err)
-      if (!user) return res.status(200).send(false)
-      return res.status(200).send(true)
-    },
-  )
+  User.findOne(req.body, function (err, user) {
+    if (err) return res.status(500).send(err)
+    if (!user) return res.status(200).send(false)
+    return res.status(200).send(user)
+  })
 })
 
 routes.post('/findByName', (req, res) => {
@@ -56,10 +58,13 @@ routes.post('/register', ({ body }, res) => {
   )
 })
 
-routes.get('/user/:username', async ({ params }, res) => {
+routes.get('/account/:id', async ({ params: { id } }, res) => {
   await User.findOne(
+    { _id: id },
     {
-      username: params.username,
+      username: 1,
+      email: 1,
+      password: 1,
     },
     function (err, user) {
       if (err) return res.status(500).send(err)
@@ -69,23 +74,31 @@ routes.get('/user/:username', async ({ params }, res) => {
   )
 })
 
-// routes.get('/user/:username', async ({ params }, res) => {
-//   await User.findOne(
-//     {
-//       username: params.username,
-//     },
-//     function (err, user) {
-//       if (err) return res.status(500).send(err)
-//       if (!user) return res.status(200).send(false)
-//       return res.status(200).send(user.artistDetails)
-//     },
-//   )
-// })
+routes.get('/user/:id', async ({ params: { id } }, res) => {
+  await User.findOne(
+    { _id: id },
+    {
+      artistDetails: {
+        country: 1,
+        email: 1,
+        localization: 1,
+        name: 1,
+        stageName: 1,
+        surname: 1,
+      },
+    },
+    function (err, user) {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+      return res.status(200).send(user)
+    },
+  )
+})
 
-routes.patch('/update-user', (req, res) => {
+routes.patch('/update-user/:id', ({ body: { data }, params: { id } }, res) => {
   User.findOneAndUpdate(
-    { username: req.body.username },
-    { $set: req.body.data },
+    { _id: id },
+    { $set: data },
     { useFindAndModify: false },
     (err, user) => {
       if (err) return res.status(500).send(err)
@@ -93,17 +106,120 @@ routes.patch('/update-user', (req, res) => {
       return res.status(200).send(true)
     },
   )
+})
 
-  // User.findOne(s
-  //   {
-  //     username: params.username,
-  //   },
-  //   function (err, user) {
-  //     if (err) return res.status(500).send(err)
-  //     if (!user) return res.status(200).send(false)
-  //     return res.status(200).send(user.artistDetails)
-  //   },
-  // )
+// function encode(data) {
+//   let buf = Buffer.from(data)
+//   let base64 = buf.toString('base64')
+//   return base64
+// }
+
+// routes.get('/images/:key', (req, res) => {
+//   const key = req.params.key
+//   const readStream = getFileStream(key)
+//   // const img = getImage(key)
+//   return readStream.pipe(res)
+// })
+
+// CLIENTS ----------------------
+
+function convertImage(clients, res) {
+  const imgs = []
+
+  clients.forEach((client) => {
+    const imgBase64 = getObject(client.image)
+    imgs.push(imgBase64)
+  })
+
+  return Promise.all(imgs).then((imgs) => {
+    for (const [key, client] of Object.entries(clients)) {
+      client['imageKey'] = client.image
+      client.image = imgs[key]
+    }
+
+    return res.status(200).send(clients)
+  })
+}
+
+routes.patch('/client/:_id', ({ body, params: { _id } }, res) => {
+  // const id = body.clientID
+  console.log('user id: ', _id)
+  console.log('client id: ', body)
+  const clientID = body._id
+  User.findOneAndUpdate(
+    { _id: _id },
+    { $set: { 'clients.$[p]': body } },
+    { arrayFilters: [{ 'p._id': clientID }] },
+    (err, user) => {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+      return res.status(200).send(user.clients)
+    },
+  )
+})
+
+routes.get('/clients/:id', async ({ params: { id } }, res) => {
+  await User.findOne(
+    { _id: id },
+    {
+      clients: {
+        _id: 1,
+        name: 1,
+        email: 1,
+        profession: 1,
+        rate: 1,
+        country: 1,
+        image: 1,
+        realname: 1,
+      },
+    },
+    function (err, user) {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+
+      return convertImage(user.clients, res)
+    },
+  )
+})
+
+routes.delete(
+  '/client/:_id/:_clientID',
+  async ({ params: { _id, _clientID } }, res) => {
+    await User.findOneAndUpdate(
+      { _id },
+      { $pull: { clients: { _id: _clientID } } },
+      (err, user) => {
+        if (err) return res.status(500).send(err)
+        if (!user) return res.status(200).send(false)
+
+        const clients = user.clients.filter((el) => {
+          if (el._id == _clientID) {
+            deleteFile(el.image)
+          }
+          return el._id != _clientID
+        })
+        return convertImage(clients, res)
+      },
+    )
+  },
+)
+
+routes.post('/client/:_id', upload.single('image'), async (req, res) => {
+  const file = req.file
+  const result = await uploadFile(file)
+  await unlinkFile(file.path)
+  req.body.image = result.Key
+
+  User.findOneAndUpdate(
+    { _id: req.params._id },
+    { $push: { clients: req.body } },
+    { new: true, upsert: true },
+    (err, user) => {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+      return convertImage(user.clients, res)
+    },
+  )
 })
 
 module.exports = routes

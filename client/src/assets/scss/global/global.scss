@@ -1,9 +1,5 @@
-body {
-  overflow-y: hidden;
-}
-
 .main {
-  @apply pl-16 bg-gray-200;
+  @apply bg-gray-200;
 }
 
 h1 {
@@ -16,4 +12,26 @@ h2 {
   @apply mx-auto;
   max-width: 1480px;
   padding: 0 30px;
+}
+
+body {
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #eaeaea;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: rgb(191, 191, 191);
+    border-radius: 2px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgb(158, 158, 158);
+  }
 }

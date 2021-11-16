@@ -15,19 +15,15 @@ const User = require('./models/user')
 const app = express()
 const port = process.env.PORT || 5000
 
-console.log(process.env.MONGODB_CONNECTION_STRING)
-
-const DBUrl =
-  'mongodb+srv://empedev:house@09!@cluster0.2ctml.mongodb.net/PDFgen?retryWrites=true&w=majority'
-// console.log(process.env.MONGODB_CONNECTION_STRING, DBUrl)
+mongoose.set('useFindAndModify', false)
 mongoose
-  .connect(process.env.MONGODB_CONNECTION_STRING || DBUrl, {
+  .connect(process.env.MONGODB_CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then((res) =>
     app.listen(port, () => {
-      console.log(`Example app listening at http://localhost:${port}`)
+      console.log(`App listening at http://localhost:${port}`)
     }),
   )
   .catch((err) => console.log(err))
@@ -48,6 +44,18 @@ User.findOne({ username: 'user' }, function (err, docs) {
         country: 'Poland',
         localization: 'wyrzysk',
       },
+      clients: [
+        {
+          _id: '997',
+          name: 'Eminem',
+          realname: 'Marshal Matters',
+          country: 'USA',
+          email: 'Emi@wp.pl',
+          profession: 'Rapper',
+          rate: 5,
+          image: 'b838e96a6051825b1a84a2f1601ac513',
+        },
+      ],
     })
 
     user.save()
@@ -58,10 +66,10 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.use(express.static(path.resolve(__dirname, './client/dist')))
-app.get('*', function (request, response) {
-  response.sendFile(path.resolve(__dirname, './client/dist', 'index.html'))
-})
+// app.use(express.static(path.resolve(__dirname, './client/dist')))
+// app.get('*', function (request, response) {
+//   response.sendFile(path.resolve(__dirname, './client/dist', 'index.html'))
+// })
 
 // app.post('/api/create-pdf', (req, res) => {
 //   pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {

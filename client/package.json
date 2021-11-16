@@ -29,7 +29,7 @@
     "lint": "eslint './src/**/*.{js,ts,tsx}' --quiet",
     "start": "npm run start-dev",
     "start-dev": "webpack serve --config=configs/webpack/dev.js",
-    "start-prod": "npm run build && node express.js",
+    "start-prod": "npm run build",
     "test": "jest --coverage --watchAll --config=configs/jest.json"
   },
   "dependencies": {
@@ -82,6 +82,7 @@
     "react-hot-loader": "^4.13.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
+    "react-signature-canvas": "^1.0.3",
     "redux-thunk": "^2.3.0",
     "redux-thunk-recursion-detect": "^1.1.4",
     "rimraf": "^3.0.2",
@@ -89,6 +90,7 @@
     "style-loader": "^2.0.0",
     "tailwindcss": "^2.1.2",
     "typescript": "^4.2.4",
+    "uuid": "^8.3.2",
     "webpack": "^5.36.1",
     "webpack-cli": "^4.6.0",
     "webpack-dev-server": "^3.11.2",

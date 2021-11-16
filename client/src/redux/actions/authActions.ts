@@ -6,23 +6,18 @@ import { IUserRegisterData } from "../../redux/types";
 
 export interface IAuthenticate {
   type: constants.AUTHENTICATE;
-  username: string;
+  userID: string;
 }
 
-function authenticate(username: string): IAuthenticate {
+function authenticate(userID: string): IAuthenticate {
   return {
     type: constants.AUTHENTICATE,
-    username: username,
+    userID: userID,
   };
 }
 
 export interface IUnauthenticate {
   type: constants.UNAUTHENTICATE;
-}
-
-interface IPasses {
-  name: String;
-  password: String;
 }
 
 function unauthenticate(): IUnauthenticate {
@@ -68,40 +63,35 @@ export function register(payload: IUserRegisterData) {
 }
 export function logIn(payload: any) {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
-    const { username, password } = payload;
-    return axios
-      .post("/api/auth", { username: username, password: password })
-      .then((res) => {
-        if (res.data) {
-          dispatch(authenticate(username));
-          window.localStorage.setItem("authenticated", "true");
-          window.localStorage.setItem("username", username);
-
-          return false;
-        } else {
-          return "Username or password are incorrect";
-        }
-      });
+    // console.log({ payload });
+    // const { username, password } = payload;
+    return axios.post("/api/auth", payload).then((res) => {
+      if (res.data) {
+        dispatch(authenticate(res.data._id));
+        window.localStorage.setItem("userID", JSON.stringify(res.data._id));
+        return false;
+      } else {
+        return "Username or password are incorrect";
+      }
+    });
   };
 }
 
 export function logOut() {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
-    window.localStorage.setItem("authenticated", "false");
-    window.localStorage.setItem("username", "false");
+    window.localStorage.setItem("userID", null);
 
     dispatch(unauthenticate());
   };
 }
 
-export function checkAuthentication() {
+export function authentication() {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
-    const auth = window.localStorage.getItem("authenticated");
-    const formattedAuth = typeof auth === "string" ? JSON.parse(auth) : null;
+    const userID = window.localStorage.getItem("userID");
+    const formattedID = typeof userID === "string" ? JSON.parse(userID) : null;
 
-    if (formattedAuth) {
-      const username = window.localStorage.getItem("username");
-      dispatch(authenticate(username));
+    if (formattedID) {
+      dispatch(authenticate(formattedID));
     } else {
       dispatch(unauthenticate());
     }

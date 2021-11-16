@@ -30,8 +30,7 @@ const Nav = ({ isAuthenticated, username, logOutConnect }: IProps) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    isAuthenticated: state.authReducer.isAuthenticated,
-    username: state.authReducer.username,
+    userID: state.authReducer.userID,
   };
 };
 

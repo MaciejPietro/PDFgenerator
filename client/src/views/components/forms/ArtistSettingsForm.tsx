@@ -7,7 +7,7 @@ import SubmitButton from "../../partials/SubmitButton";
 import * as yup from "yup";
 import axios from "axios";
 
-import { IArtistDetailsData } from "../../../interfaces/user";
+import { IArtistDetailsData } from "../../../redux/types";
 
 const schema = yup.object().shape({
   name: yup.string(),
@@ -18,11 +18,7 @@ const schema = yup.object().shape({
   localization: yup.string(),
 });
 
-function ArtistDetailsForm({ details, submitForm }: any) {
-  // useEffect(() => {
-
-  // }, [details]);
-
+function ArtistSettingsForm({ details, submitForm }: any) {
   const {
     register,
     handleSubmit,
@@ -103,4 +99,4 @@ function ArtistDetailsForm({ details, submitForm }: any) {
   );
 }
 
-export default ArtistDetailsForm;
+export default ArtistSettingsForm;

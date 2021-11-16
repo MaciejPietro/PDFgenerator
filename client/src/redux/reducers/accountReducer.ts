@@ -1,12 +1,12 @@
 import {
   IArtistDetailsAction,
-  IAccountDetailsAction,
-} from "../actions/userActions";
+  ISetAccountAction,
+} from "../actions/accountActions";
 import { ARTISTDETAILS, ACCOUNTDETAILS } from "../constants";
-import { IUserStoreState } from "../../interfaces/user";
+import { IAccountStore } from "../types";
 
-export default function userReducer(
-  state: IUserStoreState = {
+export default function acountReducer(
+  state: IAccountStore = {
     account: {
       username: null,
       password: null,
@@ -21,8 +21,8 @@ export default function userReducer(
       localization: null,
     },
   },
-  action: IArtistDetailsAction | IAccountDetailsAction,
-): IUserStoreState {
+  action: IArtistDetailsAction | ISetAccountAction,
+): IAccountStore {
   switch (action.type) {
     case ARTISTDETAILS:
       return {

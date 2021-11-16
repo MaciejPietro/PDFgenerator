@@ -10,23 +10,17 @@ interface IProps {
   isAuthenticated: boolean | null;
   path: string | string[];
   component: React.ComponentType<any>;
-  children?: any;
 }
 
-const LoggedInRoute = ({
-  component: Component,
-  isAuthenticated,
-  ...otherProps
-}: IProps) => {
-  useEffect(() => {
-    if (isAuthenticated === false) {
-      history.push("/log-in");
-    }
-  });
+const LoggedInRoute = ({ component: Component, isAuthenticated }: IProps) => {
+  // useEffect(() => {
+  //   if (isAuthenticated !== false) {
+  //     history.push("/log-in");
+  //   }
+  // });
 
   return (
     <>
-      {/* <header>Logged In Header</header> */}
       <Route
         render={(otherProps) => (
           <>
@@ -36,13 +30,12 @@ const LoggedInRoute = ({
           </>
         )}
       />
-      {/* <footer>Logged In Footer</footer> */}
     </>
   );
 };
 
-const mapStateToProps = (state: ICurrentUser) => ({
-  isAuthenticated: state.isAuthenticated,
+const mapStateToProps = (state: any) => ({
+  isAuthenticated: !!state.authReducer.userID,
 });
 
 export default connect(mapStateToProps)(LoggedInRoute);

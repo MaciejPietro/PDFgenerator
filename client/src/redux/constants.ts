@@ -12,3 +12,15 @@ export type ARTISTDETAILS = typeof ARTISTDETAILS;
 
 export const ACCOUNTDETAILS = "ACCOUNTDETAILS";
 export type ACCOUNTDETAILS = typeof ACCOUNTDETAILS;
+
+export const ADDCLIENT = "ADDCLIENT";
+export type ADDCLIENT = typeof ADDCLIENT;
+
+export const SETCLIENTS = "SETCLIENTS";
+export type SETCLIENTS = typeof SETCLIENTS;
+
+export const DELETECLIENT = "DELETECLIENT";
+export type DELETECLIENT = typeof DELETECLIENT;
+
+export const EDITCLIENT = "EDITCLIENT";
+export type EDITCLIENT = typeof EDITCLIENT;

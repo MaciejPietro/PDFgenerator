@@ -13,14 +13,17 @@
 
 @import "./global/global.scss";
 @import "./global/fonts.scss";
+@import "./global/grid.scss";
+
 // @import './components/webfonts.pcss';
 
 /**
- * Include styles for individual pages
- *
- */
+* Include styles for individual pages
+*
+*/
 
 @import "./partials/stars.scss";
 
+@import "./components/pricing.scss";
 @import "./components/nav.scss";
 @import "./components/clients.scss";

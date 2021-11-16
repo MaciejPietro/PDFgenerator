@@ -3,6 +3,9 @@ import { useRef } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "../../partials/Input";
 import Stars from "../../partials/Stars";
+import InputImage from "../../partials/InputImage";
+
+import { v4 as uuidv4 } from "uuid";
 
 import SubmitButton from "../../partials/SubmitButton";
 
@@ -11,6 +14,7 @@ import * as yup from "yup";
 import { IClientData } from "../../../redux/types";
 
 const schema = yup.object().shape({
+  // id: yup.string().required(),
   name: yup
     .string()
     .min(2, "This field is too short")
@@ -25,45 +29,48 @@ const schema = yup.object().shape({
     .string()
     .min(3, "This field is too short")
     .max(30, "This field is too long"),
-  sold_sum_in_pln: yup.number(),
   rate: yup.mixed(),
 });
 
-function AddClient(props: any) {
+function AddClient({ submitForm }) {
   const addClientWrap = useRef<HTMLDivElement>(null);
+  const form = useRef(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IClientData>({
+  } = useForm<any>({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data: IClientData) => {
-    // props.submitForm(data);
-    console.log(data, props);
+  const onSubmit = (fData: IClientData) => {
+    const data = new FormData();
 
-    // const username = window.localStorage.getItem("username");
-    // console.log("user", data);
-    // axios.patch("/api/update-user", { data, username }).then((res) => {
-    //   {
-    //     setMessage(res.data ? "Updated succesfully" : "Something went wrong");
-    //     if (res.data) {
-    //       storeAction().then((data) => setDetails(data));
-    //     }
-    //   }
-    // });
+    for (const key in fData) {
+      if (key === "image") {
+        data.append(key, fData[key][0]);
+      } else {
+        data.append(key, fData[key]);
+      }
+    }
+    data.append("_id", uuidv4());
+
+    submitForm(data);
   };
 
   const toggleForm = () => {
     addClientWrap.current.classList.toggle("clients__add--active");
-    console.log(addClientWrap);
   };
 
   return (
     <div className="clients__add" ref={addClientWrap}>
       <button onClick={() => toggleForm()}>Add Client</button>
       <div className="clients__add__form">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          encType="multipart/form-data"
+          ref={form}
+        >
           <fieldset>
             <Input
               register={register}
@@ -71,6 +78,22 @@ function AddClient(props: any) {
               name="name"
               type="text"
               placeholder="Name"
+            />
+
+            <Input
+              register={register}
+              errors={errors}
+              name="realname"
+              type="text"
+              placeholder="Real name"
+            />
+
+            <Input
+              register={register}
+              errors={errors}
+              name="country"
+              type="text"
+              placeholder="Country"
             />
 
             <Input
@@ -89,12 +112,11 @@ function AddClient(props: any) {
               placeholder="Profession"
             />
 
-            <Input
+            <InputImage
               register={register}
               errors={errors}
-              name="sold_sum"
-              type="number"
-              placeholder="Sold sum"
+              name="image"
+              placeholder="Image"
             />
 
             <Stars register={register} errors={errors} name="rate" />

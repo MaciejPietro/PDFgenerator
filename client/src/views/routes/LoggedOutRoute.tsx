@@ -25,7 +25,6 @@ const LoggedOutRoute = ({
 
   return (
     <>
-      {/* <header>Logged Out Header</header> */}
       <Route
         render={(otherProps) => (
           <>
@@ -33,13 +32,12 @@ const LoggedOutRoute = ({
           </>
         )}
       />
-      {/* <footer>Logged Out Footer</footer> */}
     </>
   );
 };
 
-const mapStateToProps = (state: ICurrentUser) => ({
-  isAuthenticated: state.isAuthenticated,
+const mapStateToProps = (state: any) => ({
+  isAuthenticated: !!state.authReducer.userID,
 });
 
 export default connect(mapStateToProps)(LoggedOutRoute);

@@ -14,11 +14,14 @@
     "heroku-postbuild": "npm run install-client && npm run build",
     "server": "nodemon server.js",
     "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\"",
-    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\""
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\"",
+    "dev": "concurrently \"nodemon index.js\" \"cd client && npm run start\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.40.0",
+    "aws-sdk": "^2.1019.0",
     "body-parser": "^1.19.0",
     "concurrently": "^6.2.1",
     "cors": "^2.8.5",
@@ -27,6 +30,7 @@
     "html-pdf": "^3.0.0",
     "html-webpack-plugin": "^5.3.2",
     "mongoose": "^5.12.13",
+    "multer": "^1.4.3",
     "nodemon": "^2.0.12",
     "rimraf": "^3.0.2",
     "webpack": "^5.51.1",

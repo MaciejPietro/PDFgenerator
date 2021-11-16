@@ -5,15 +5,24 @@ import { DeepMap, FieldError, UseFormRegister } from "react-hook-form";
 import { IUserLoginData, IUserRegisterData } from "../../redux/types";
 
 interface IProps {
-  errors: DeepMap<any, FieldError>;
+  errors?: DeepMap<any, FieldError>;
   register: UseFormRegister<any>;
   name: string;
   type: string;
-  placeholder: string;
+  placeholder?: string;
   value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Input({ errors, register, name, type, placeholder, value }: IProps) {
+function Input({
+  errors,
+  register,
+  name,
+  type,
+  placeholder,
+  value,
+  onChange,
+}: IProps) {
   return (
     <label className="block text-grey-darker text-sm font-bold mb-2">
       {placeholder}
@@ -24,8 +33,9 @@ function Input({ errors, register, name, type, placeholder, value }: IProps) {
         type={type}
         defaultValue={value || ""}
         min="0"
+        onChange={onChange}
       />
-      <p>{errors[name]?.message}</p>
+      <p>{errors && errors[name]?.message}</p>
     </label>
   );
 }
