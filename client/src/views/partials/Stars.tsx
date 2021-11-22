@@ -5,10 +5,11 @@ interface IProps {
   errors: DeepMap<any, FieldError>;
   register: UseFormRegister<any>;
   name: string;
+  rate?: number;
   // onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Stars({ register, name, errors }: IProps) {
+function Stars({ register, name, errors, rate }: IProps) {
   const stars = [""];
 
   return (
@@ -23,7 +24,11 @@ function Stars({ register, name, errors }: IProps) {
               name="rate"
               value={value}
             />
-            <label htmlFor={`star${value}`} title="text">
+            <label
+              htmlFor={`star${value}`}
+              title="text"
+              className={value < rate ? "" : "filled"}
+            >
               {value} stars
             </label>
           </React.Fragment>

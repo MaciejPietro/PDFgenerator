@@ -2,8 +2,8 @@ import { ThunkDispatch as Dispatch } from "redux-thunk";
 import * as constants from "../constants";
 import axios from "axios";
 
-export interface IArtistDetailsAction {
-  type: constants.ARTISTDETAILS;
+export interface IPersonalDetailsAction {
+  type: constants.PERSONALDETAILS;
   data: any;
 }
 
@@ -12,9 +12,9 @@ export interface ISetAccountAction {
   data: any;
 }
 
-export function setArtistAction(data: any): IArtistDetailsAction {
+export function setPersonalAction(data: any): IPersonalDetailsAction {
   return {
-    type: constants.ARTISTDETAILS,
+    type: constants.PERSONALDETAILS,
     data: data,
   };
 }
@@ -26,12 +26,12 @@ export function setAccountAction(data: any): ISetAccountAction {
   };
 }
 
-// export function updateStoreArtistDetails() {
-//   return (dispatch: Dispatch<IArtistDetailsAction, {}, any>) => {
+// export function updateStorePersonalDetails() {
+//   return (dispatch: Dispatch<IPersonalDetailsAction, {}, any>) => {
 //     const name = window.localStorage.getItem("username");
 //     return axios.get(`/api/user/${name}`).then((res) => {
-//       dispatch(setArtistDetails(res.data.artistDetails));
-//       return res.data.artistDetails;
+//       dispatch(setPersonalDetails(res.data.PersonalDetails));
+//       return res.data.PersonalDetails;
 //     });
 //   };
 // }
@@ -52,12 +52,12 @@ export function setAccount() {
   };
 }
 
-export function setArtist() {
+export function setPersonal() {
   return (dispatch: Dispatch<ISetAccountAction, {}, any>) => {
     const userID = JSON.parse(window.localStorage.getItem("userID"));
     return axios.get(`/api/user/${userID}`).then(({ data }) => {
-      const { artistDetails } = data;
-      return dispatch(setArtistAction(artistDetails));
+      const { personalDetails } = data;
+      return dispatch(setPersonalAction(personalDetails));
     });
   };
 }

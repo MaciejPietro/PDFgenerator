@@ -5,7 +5,7 @@ const fs = require('fs')
 const util = require('util')
 const unlinkFile = util.promisify(fs.unlink)
 
-const { uploadFile, getFileStream, getObject, deleteFile } = require('../s3')
+const { uploadFile, getObject, deleteFile } = require('../s3')
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
 
@@ -78,7 +78,7 @@ routes.get('/user/:id', async ({ params: { id } }, res) => {
   await User.findOne(
     { _id: id },
     {
-      artistDetails: {
+      personalDetails: {
         country: 1,
         email: 1,
         localization: 1,
@@ -141,22 +141,28 @@ function convertImage(clients, res) {
   })
 }
 
-routes.patch('/client/:_id', ({ body, params: { _id } }, res) => {
-  // const id = body.clientID
-  console.log('user id: ', _id)
-  console.log('client id: ', body)
-  const clientID = body._id
-  User.findOneAndUpdate(
-    { _id: _id },
-    { $set: { 'clients.$[p]': body } },
-    { arrayFilters: [{ 'p._id': clientID }] },
-    (err, user) => {
-      if (err) return res.status(500).send(err)
-      if (!user) return res.status(200).send(false)
-      return res.status(200).send(user.clients)
-    },
-  )
-})
+routes.patch(
+  '/client/:_id/:_clientID',
+  upload.single('image'),
+  async ({ body, file, params: { _id, _clientID } }, res) => {
+    if (file) {
+      const result = await uploadFile(file)
+      await unlinkFile(file.path)
+      body.image = result.Key
+    }
+
+    User.findOneAndUpdate(
+      { _id },
+      { $set: { 'clients.$[p]': body } },
+      { arrayFilters: [{ 'p._id': _clientID }], new: true },
+      (err, user) => {
+        if (err) return res.status(500).send(err)
+        if (!user) return res.status(200).send(false)
+        return convertImage(user.clients, res)
+      },
+    )
+  },
+)
 
 routes.get('/clients/:id', async ({ params: { id } }, res) => {
   await User.findOne(
@@ -198,28 +204,34 @@ routes.delete(
           }
           return el._id != _clientID
         })
+
         return convertImage(clients, res)
       },
     )
   },
 )
 
-routes.post('/client/:_id', upload.single('image'), async (req, res) => {
-  const file = req.file
-  const result = await uploadFile(file)
-  await unlinkFile(file.path)
-  req.body.image = result.Key
+routes.post(
+  '/client/:_id',
+  upload.single('image'),
+  async ({ file, body, params }, res) => {
+    if (file) {
+      const result = await uploadFile(file)
+      await unlinkFile(file.path)
+      body.image = result.Key
+    }
 
-  User.findOneAndUpdate(
-    { _id: req.params._id },
-    { $push: { clients: req.body } },
-    { new: true, upsert: true },
-    (err, user) => {
-      if (err) return res.status(500).send(err)
-      if (!user) return res.status(200).send(false)
-      return convertImage(user.clients, res)
-    },
-  )
-})
+    User.findOneAndUpdate(
+      { _id: params._id },
+      { $push: { clients: body } },
+      { new: true, upsert: true },
+      (err, user) => {
+        if (err) return res.status(500).send(err)
+        if (!user) return res.status(200).send(false)
+        return convertImage(user.clients, res)
+      },
+    )
+  },
+)
 
 module.exports = routes

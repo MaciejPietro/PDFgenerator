@@ -36,7 +36,7 @@ User.findOne({ username: 'user' }, function (err, docs) {
       username: 'user',
       password: 'password1',
       email: 'maciejwsrh97@wp.pl',
-      artistDetails: {
+      personalDetails: {
         name: 'Maciej',
         surname: 'Pietro',
         stageName: 'Empe Beats',

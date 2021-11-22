@@ -1,35 +1,46 @@
 .stars {
+  @apply flex flex-nowrap flex-row-reverse;
   float: left;
   height: 46px;
   padding: 0 10px;
-}
-.stars:not(:checked) > input {
-  position: absolute;
-  top: -9999px;
-}
-.stars:not(:checked) > label {
-  float: right;
-  width: 1em;
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 30px;
-  color: #ccc;
-}
-.stars:not(:checked) > label:before {
-  content: "★ ";
-}
-.stars > input:checked ~ label {
-  color: #ffc700;
-}
-.stars:not(:checked) > label:hover,
-.stars:not(:checked) > label:hover ~ label {
-  color: #deb217;
-}
-.stars > input:checked + label:hover,
-.stars > input:checked + label:hover ~ label,
-.stars > input:checked ~ label:hover,
-.stars > input:checked ~ label:hover ~ label,
-.stars > label:hover ~ input:checked ~ label {
-  color: #c59b08;
+
+  &:not(:checked) > input {
+    position: absolute;
+    top: -9999px;
+  }
+
+  &:not(:checked) > label {
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 30px;
+    color: #ccc;
+
+    &.filled {
+      @apply text-gray-900;
+    }
+
+    &:before {
+      content: "★ ";
+    }
+
+    &:hover,
+    &:hover ~ label {
+      color: #deb217;
+    }
+  }
+
+  & > input:checked ~ label {
+    color: #ffc700;
+  }
+
+  & > input:checked + label:hover,
+  & > input:checked + label:hover ~ label,
+  & > input:checked ~ label:hover,
+  & > input:checked ~ label:hover ~ label,
+  & > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+  }
 }

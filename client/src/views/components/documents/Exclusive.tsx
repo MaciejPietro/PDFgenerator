@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { ISaleBeat, IArtistDetailsData } from "../../../redux/types";
+import { ISaleBeat, IPersonalDetailsData } from "../../../redux/types";
 
 interface IProps {
   data: ISaleBeat;
-  artist: IArtistDetailsData;
+  personal: IPersonalDetailsData;
 }
 
-const Exclusive = ({ data, artist }: IProps) => {
+const Exclusive = ({ data, personal }: IProps) => {
   const { beatName, licension, currency, client } = data;
-  const { name, surname, stageName, email, country, localization } = artist;
+  const { name, surname, stageName, email, country, localization } = personal;
 
   const currenciesSign = {
     usd: "$",

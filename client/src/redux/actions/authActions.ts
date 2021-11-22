@@ -63,8 +63,6 @@ export function register(payload: IUserRegisterData) {
 }
 export function logIn(payload: any) {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
-    // console.log({ payload });
-    // const { username, password } = payload;
     return axios.post("/api/auth", payload).then((res) => {
       if (res.data) {
         dispatch(authenticate(res.data._id));

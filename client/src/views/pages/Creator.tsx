@@ -1,8 +1,8 @@
 import CreatorForm from "../components/forms/CreatorForm";
 import DocumentPreview from "../components/DocumentPreview";
 import { useState, useEffect } from "react";
-import { ISaleBeat, IArtistDetailsData } from "../../redux/types";
-import { useClients, useArtist } from "../hooks/index";
+import { ISaleBeat, IPersonalDetailsData } from "../../redux/types";
+import { useClients, useSettings } from "../hooks/index";
 
 const Creator = () => {
   const [clients] = useClients();
@@ -13,9 +13,9 @@ const Creator = () => {
     client: null,
   });
 
-  const artist = useArtist();
+  const personal = useSettings();
 
-  useEffect(() => {}, [clients, artist]);
+  useEffect(() => {}, [clients, personal]);
 
   function updateInfo(data: ISaleBeat) {
     const { beatName, currency, licension, client }: ISaleBeat = data;
@@ -31,7 +31,9 @@ const Creator = () => {
 
   function updateSingle(type, value) {
     const val =
-      type !== "client" ? value : clients.find((client) => client.id === value);
+      type !== "client"
+        ? value
+        : clients.find((client) => client._id === value);
 
     setInfo((prevState) => ({
       ...prevState,
@@ -45,7 +47,7 @@ const Creator = () => {
 
       <div className="grid grid-cols-4">
         <div className="col-start-1 col-end-4">
-          <DocumentPreview data={info} artist={artist} />
+          <DocumentPreview data={info} personal={personal} />
         </div>
         <div className="col-start-4 col-end-5">
           <div className="sticky top-24">

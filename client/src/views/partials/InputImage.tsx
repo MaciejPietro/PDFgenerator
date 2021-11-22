@@ -7,10 +7,15 @@ interface IProps {
   register: UseFormRegister<any>;
   name: string;
   placeholder?: string;
+  image?: string;
 }
 
-function InputImage({ errors, register, name, placeholder }: IProps) {
+function InputImage({ errors, register, name, placeholder, image }: IProps) {
   const [file, setFile] = useState("");
+
+  useEffect(() => {
+    console.log({ file });
+  }, [file]);
 
   const fileSelected = (event) => {
     if (event.target.files[0]) {
@@ -35,7 +40,16 @@ function InputImage({ errors, register, name, placeholder }: IProps) {
         <p>{errors[name]?.message}</p>
       </label>
 
-      <img src={file} alt="image" width="200" height="320" />
+      {file ? (
+        <img src={file} alt="image" width="200" height="320" />
+      ) : (
+        image && (
+          <img
+            className="h-64 w-full object-contain"
+            src={"data:image/jpeg;base64," + image}
+          />
+        )
+      )}
     </div>
   );
 }

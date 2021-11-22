@@ -47,11 +47,7 @@ function AddClient({ submitForm }) {
     const data = new FormData();
 
     for (const key in fData) {
-      if (key === "image") {
-        data.append(key, fData[key][0]);
-      } else {
-        data.append(key, fData[key]);
-      }
+      data.append(key, key === "image" ? fData[key][0] : fData[key]);
     }
     data.append("_id", uuidv4());
 

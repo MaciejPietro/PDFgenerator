@@ -1,8 +1,8 @@
 import {
-  IArtistDetailsAction,
+  IPersonalDetailsAction,
   ISetAccountAction,
 } from "../actions/accountActions";
-import { ARTISTDETAILS, ACCOUNTDETAILS } from "../constants";
+import { PERSONALDETAILS, ACCOUNTDETAILS } from "../constants";
 import { IAccountStore } from "../types";
 
 export default function acountReducer(
@@ -12,7 +12,7 @@ export default function acountReducer(
       password: null,
       email: null,
     },
-    artist: {
+    personal: {
       name: null,
       surname: null,
       stageName: null,
@@ -21,13 +21,13 @@ export default function acountReducer(
       localization: null,
     },
   },
-  action: IArtistDetailsAction | ISetAccountAction,
+  action: IPersonalDetailsAction | ISetAccountAction,
 ): IAccountStore {
   switch (action.type) {
-    case ARTISTDETAILS:
+    case PERSONALDETAILS:
       return {
         ...state,
-        artist: {
+        personal: {
           name: action.data?.name,
           surname: action.data?.surname,
           stageName: action.data?.stageName,

@@ -7,7 +7,7 @@ import SubmitButton from "../../partials/SubmitButton";
 import * as yup from "yup";
 import axios from "axios";
 
-import { IArtistDetailsData } from "../../../redux/types";
+import { IPersonalDetailsData } from "../../../redux/types";
 
 const schema = yup.object().shape({
   name: yup.string(),
@@ -18,18 +18,18 @@ const schema = yup.object().shape({
   localization: yup.string(),
 });
 
-function ArtistSettingsForm({ details, submitForm }: any) {
+function PersonalSettingsForm({ details, submitForm }: any) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IArtistDetailsData>({
+  } = useForm<IPersonalDetailsData>({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data: IArtistDetailsData) => {
+  const onSubmit = (data: IPersonalDetailsData) => {
     Object.keys(data).forEach((key) => {
       if (data[key] != "") {
-        data[`artistDetails.${key}`] = data[key];
+        data[`personalDetails.${key}`] = data[key];
       }
       delete data[key];
     });
@@ -99,4 +99,4 @@ function ArtistSettingsForm({ details, submitForm }: any) {
   );
 }
 
-export default ArtistSettingsForm;
+export default PersonalSettingsForm;

@@ -1,4 +1,4 @@
 import useClients from "../hooks/useClients";
-import useArtist from "../hooks/useArtist";
+import useSettings from "../hooks/useSettings";
 
-export { useClients, useArtist };
+export { useClients, useSettings };

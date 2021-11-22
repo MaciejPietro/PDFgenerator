@@ -54,14 +54,11 @@ export function addClient(payload: IClientData) {
   return (dispatch: Dispatch<IAddClientAction, {}, any>) => {
     const userID = JSON.parse(window.localStorage.getItem("userID"));
 
-    return axios.post(`/api/client/${userID}`, payload).then(
-      (res) => {
-        if (res.data) {
-          return dispatch(addClientAction(res.data));
-        }
-      },
-      { headers: { "Content-Type": "multipart/form-data" } },
-    );
+    return axios.post(`/api/client/${userID}`, payload).then((res) => {
+      if (res.data) {
+        return dispatch(addClientAction(res.data));
+      }
+    });
   };
 }
 
@@ -72,7 +69,6 @@ export function setClients() {
     return axios
       .get(`/api/clients/${userID}`)
       .then(({ data }: { data: IClientData[] }) => {
-        console.log(data);
         return dispatch(setClientsAction(data));
       });
   };
@@ -83,18 +79,19 @@ export function deleteClient(clientID: string) {
     return axios
       .delete(`/api/client/${userID}/${clientID}`)
       .then(({ data }) => {
-        console.log("delate Client action data - client id", data);
         return dispatch(setClientsAction(data));
       });
   };
 }
 
-export function editClient(payload: IClientData) {
+export function editClient(payload: FormData) {
   return (dispatch: Dispatch<any, {}, any>) => {
     const userID = JSON.parse(window.localStorage.getItem("userID"));
-    return axios.patch(`/api/client/${userID}`, payload).then(({ data }) => {
-      console.log("editClient action: ", data);
-      return data && dispatch(editClientAction(data));
-    });
+    console.log(payload.get("_id"));
+    return axios
+      .patch(`/api/client/${userID}/${payload.get("_id")}`, payload)
+      .then(({ data }) => {
+        return data && dispatch(editClientAction(data));
+      });
   };
 }

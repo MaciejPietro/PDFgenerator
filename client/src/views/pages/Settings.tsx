@@ -1,5 +1,5 @@
 import AccountSettings from "../components/settings/AccountSettings";
-import ArtistSettings from "../components/settings/ArtistSettings";
+import PersonalSettings from "../components/settings/PersonalSettings";
 
 import { NavLink, Switch, Route } from "react-router-dom";
 
@@ -14,7 +14,7 @@ const Settings = () => {
         <div className="flex items-start gap-16">
           <div className="w-60 rounded border border-gray-500 bg-white flex-shrink-0">
             <NavLink to="/settings" className={linkStyle}>
-              Artist details
+              Personal details
             </NavLink>
             <NavLink to="/settings/account" className={linkStyle}>
               Account details
@@ -26,7 +26,7 @@ const Settings = () => {
               path="/settings"
               exact={true}
               component={() => {
-                return <ArtistSettings></ArtistSettings>;
+                return <PersonalSettings></PersonalSettings>;
               }}
             />
             <Route

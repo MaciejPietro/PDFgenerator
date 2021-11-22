@@ -1,4 +1,4 @@
-// import { IArtistDetailsData } from "../interfaces/user";
+// import { IPersonalDetailsData } from "../interfaces/user";
 
 export interface ICurrentUser {
   userID: string | null;
@@ -21,7 +21,7 @@ export interface IUserLoginData {
   password: string;
 }
 
-export interface IArtistDetailsData {
+export interface IPersonalDetailsData {
   name: string | null;
   surname: string | null;
   stageName: string | null;
@@ -32,7 +32,7 @@ export interface IArtistDetailsData {
 
 export interface IAccountStore {
   account: IUserRegisterData;
-  artist: IArtistDetailsData;
+  Personal: IPersonalDetailsData;
 }
 
 export interface IClientData {

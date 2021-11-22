@@ -15,7 +15,7 @@ const userSchema = new Schema(
       type: String,
       require: true,
     },
-    artistDetails: {
+    personalDetails: {
       name: String,
       surname: String,
       stageName: String,

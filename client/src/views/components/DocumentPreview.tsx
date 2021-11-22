@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import Exclusive from "./documents/Exclusive";
 
-import { ISaleBeat, IArtistDetailsData } from "../../redux/types";
+import { ISaleBeat, IPersonalDetailsData } from "../../redux/types";
 
 interface IProps {
   data: ISaleBeat;
-  artist: IArtistDetailsData;
+  personal: IPersonalDetailsData;
 }
 
-function DocumentPreview({ data, artist }: IProps) {
-  return <Exclusive data={data} artist={artist} />;
+function DocumentPreview({ data, personal }: IProps) {
+  return <Exclusive data={data} personal={personal} />;
 }
 
 export default DocumentPreview;

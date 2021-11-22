@@ -19,13 +19,10 @@ const s3 = new S3({
 })
 
 function deleteFile(key) {
-  s3.deleteObject(
-    {
-      Bucket: bucketName,
-      Key: key,
-    },
-    function (err, data) {},
-  )
+  s3.deleteObject({
+    Bucket: bucketName,
+    Key: key,
+  })
 }
 exports.deleteFile = deleteFile
 

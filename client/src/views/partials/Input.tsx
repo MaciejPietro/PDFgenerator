@@ -33,7 +33,6 @@ function Input({
         type={type}
         defaultValue={value || ""}
         min="0"
-        onChange={onChange}
       />
       <p>{errors && errors[name]?.message}</p>
     </label>

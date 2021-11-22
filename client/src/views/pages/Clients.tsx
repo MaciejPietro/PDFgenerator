@@ -1,5 +1,6 @@
 import Table from "../components/Table";
 import AddClient from "../components/forms/ClientForm";
+import EditPopup from "../components/EditPopup";
 
 import { connect } from "react-redux";
 import {
@@ -8,7 +9,7 @@ import {
   editClient,
 } from "../../redux/actions/clientActions";
 import { IClientData } from "../../redux/types";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useClients } from "../hooks/index";
 
 interface IProps {
@@ -29,20 +30,20 @@ function Clients({
 }: IProps) {
   const [message, setMessage] = React.useState<string>();
   const [clients, setClients] = useClients();
+  const [editedClient, setEditedClient] = useState<IClientData>();
+  const popup = useRef<HTMLDivElement>(null);
 
   const addClient = (data: IClientData) => {
     addClientConnect(data).then(({ data }) => {
       setMessage(data ? successAddMsg : failedAddMsg);
-      console.log("komponent data", data);
+      console.log("add", data);
       data && setClients(data);
     });
   };
   const editClient = (data: IClientData) => {
-    console.log({ data });
-    editClientConnect(data).then((res) => {
-      console.log("Client edit component res", res);
-      //  setMessage(data ? successDeleteMsg : failedDeleteMsg);
-      //  data && setClients(data);
+    editClientConnect(data).then(({ data }) => {
+      console.log("elo", data);
+      data && setClients(data);
     });
   };
   const deleteClient = (clientID: string) => {
@@ -50,6 +51,11 @@ function Clients({
       setMessage(data ? successDeleteMsg : failedDeleteMsg);
       data && setClients(data);
     });
+  };
+
+  const stopEditing = () => {
+    popup.current.classList.add("hidden");
+    setEditedClient(null);
   };
 
   return (
@@ -60,7 +66,14 @@ function Clients({
       <Table
         items={clients}
         deleteRecord={deleteClient}
-        editRecord={editClient}
+        setEditedClient={setEditedClient}
+        popup={popup}
+      />
+      <EditPopup
+        popup={popup}
+        client={editedClient}
+        stopEditing={stopEditing}
+        edit={editClient}
       />
     </section>
   );
