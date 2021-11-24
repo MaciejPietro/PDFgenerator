@@ -33,7 +33,7 @@ const AccountSettings = ({ setAccountConnect, accountStore }: IProps) => {
   }, []);
 
   const submitForm = (data: any) => {
-    const userID = JSON.parse(window.localStorage.getItem("userID"));
+    const userID = window.localStorage.getItem("userID");
 
     axios.patch(`/api/update-user/${userID}`, { data }).then((res) => {
       {

@@ -8,12 +8,41 @@ const unlinkFile = util.promisify(fs.unlink)
 const { uploadFile, getObject, deleteFile } = require('../s3')
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
+const jwt = require('jsonwebtoken')
 
-routes.post('/auth', (req, res) => {
+const verifyJWT = (req, res, next) => {
+  const token = req.headers['x-access-token']
+
+  if (!token) {
+    res.send('No JWT token provided')
+  } else {
+    jwt.verify(token, 'jwtSecret', (err, decoded) => {
+      if (err) {
+        res.json({ auth: false, message: 'Authentication failed!' })
+      } else {
+        res.json({ auth: true })
+        req._id = decoded.id
+        next()
+      }
+    })
+  }
+}
+
+routes.get('/auth', verifyJWT, (req, res) => {
+  return res.send(200)
+})
+
+routes.post('/login', (req, res) => {
   User.findOne(req.body, function (err, user) {
     if (err) return res.status(500).send(err)
     if (!user) return res.status(200).send(false)
-    return res.status(200).send(user)
+    const id = user._id
+    const token = jwt.sign({ id }, 'jwtSecret', {
+      expiresIn: 60, //ms
+    })
+    console.log('user', user._id)
+
+    return res.status(200).send({ user, auth: true, token })
   })
 })
 
@@ -123,7 +152,7 @@ routes.patch('/update-user/:id', ({ body: { data }, params: { id } }, res) => {
 
 // CLIENTS ----------------------
 
-function convertImage(clients, res) {
+async function convertImage(clients, res) {
   const imgs = []
 
   clients.forEach((client) => {
@@ -131,7 +160,7 @@ function convertImage(clients, res) {
     imgs.push(imgBase64)
   })
 
-  return Promise.all(imgs).then((imgs) => {
+  return await Promise.all(imgs).then((imgs) => {
     for (const [key, client] of Object.entries(clients)) {
       client['imageKey'] = client.image
       client.image = imgs[key]

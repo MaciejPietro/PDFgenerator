@@ -36,13 +36,11 @@ function Clients({
   const addClient = (data: IClientData) => {
     addClientConnect(data).then(({ data }) => {
       setMessage(data ? successAddMsg : failedAddMsg);
-      console.log("add", data);
       data && setClients(data);
     });
   };
   const editClient = (data: IClientData) => {
     editClientConnect(data).then(({ data }) => {
-      console.log("elo", data);
       data && setClients(data);
     });
   };

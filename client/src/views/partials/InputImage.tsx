@@ -13,9 +13,8 @@ interface IProps {
 function InputImage({ errors, register, name, placeholder, image }: IProps) {
   const [file, setFile] = useState("");
 
-  useEffect(() => {
-    console.log({ file });
-  }, [file]);
+  // useEffect(() => {
+  // }, [file]);
 
   const fileSelected = (event) => {
     if (event.target.files[0]) {

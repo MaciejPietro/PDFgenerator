@@ -61,24 +61,27 @@ export function register(payload: IUserRegisterData) {
     });
   };
 }
-export function logIn(payload: any) {
+export function logIn(payload: [string, string]) {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
-    return axios.post("/api/auth", payload).then((res) => {
-      if (res.data) {
-        dispatch(authenticate(res.data._id));
-        window.localStorage.setItem("userID", JSON.stringify(res.data._id));
-        return false;
-      } else {
-        return "Username or password are incorrect";
-      }
-    });
+    return axios
+      .post("/api/login", payload)
+      .then(({ data: { user, auth, token } }) => {
+        if (auth) {
+          window.localStorage.setItem("userID", user._id);
+          window.localStorage.setItem("token", token);
+          dispatch(authenticate(user._id));
+          return false;
+        } else {
+          return "Username or password are incorrect";
+        }
+      });
   };
 }
 
 export function logOut() {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
     window.localStorage.setItem("userID", null);
-
+    window.localStorage.setItem("token", null);
     dispatch(unauthenticate());
   };
 }
@@ -86,12 +89,20 @@ export function logOut() {
 export function authentication() {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
     const userID = window.localStorage.getItem("userID");
-    const formattedID = typeof userID === "string" ? JSON.parse(userID) : null;
+    const token = window.localStorage.getItem("token");
 
-    if (formattedID) {
-      dispatch(authenticate(formattedID));
-    } else {
-      dispatch(unauthenticate());
-    }
+    axios
+      .get("/api/auth", {
+        headers: {
+          "x-access-token": token,
+        },
+      })
+      .then((res) => {
+        if (res.data.auth) {
+          dispatch(authenticate(userID));
+        } else {
+          dispatch(unauthenticate());
+        }
+      });
   };
 }

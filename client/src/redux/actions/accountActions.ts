@@ -38,7 +38,7 @@ export function setAccountAction(data: any): ISetAccountAction {
 
 export function setAccount() {
   return (dispatch: Dispatch<ISetAccountAction, {}, any>) => {
-    const userID = JSON.parse(window.localStorage.getItem("userID"));
+    const userID = window.localStorage.getItem("userID");
     return axios.get(`/api/account/${userID}`).then(({ data }) => {
       const { username, password, email } = data;
       return dispatch(
@@ -54,7 +54,7 @@ export function setAccount() {
 
 export function setPersonal() {
   return (dispatch: Dispatch<ISetAccountAction, {}, any>) => {
-    const userID = JSON.parse(window.localStorage.getItem("userID"));
+    const userID = window.localStorage.getItem("userID");
     return axios.get(`/api/user/${userID}`).then(({ data }) => {
       const { personalDetails } = data;
       return dispatch(setPersonalAction(personalDetails));

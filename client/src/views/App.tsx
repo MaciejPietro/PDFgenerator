@@ -25,7 +25,7 @@ const App = ({ authenticationConnect, isAuthenticated }: IProps) => {
   return (
     <div className="App">
       <Router history={history}>
-        <Nav username={"Leszek"} isAuthenticated={isAuthenticated} />
+        <Nav isAuthenticated={isAuthenticated} />
         <div className="main">
           <Route component={Pages} />
         </div>
@@ -36,6 +36,7 @@ const App = ({ authenticationConnect, isAuthenticated }: IProps) => {
 
 const mapStateToProps = (state: any) => ({
   isAuthenticated: !!state.authReducer.userID,
+  username: state.authReducer.username,
 });
 
 const mapDispatchToProps = {

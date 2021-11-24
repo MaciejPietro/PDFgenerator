@@ -11,11 +11,13 @@ interface IProps {
 
 interface IProps {
   isAuthenticated: boolean | null;
-  username: string | null;
+  // username: string | null;
   logOutConnect: () => void;
 }
 
-const Nav = ({ isAuthenticated, username, logOutConnect }: IProps) => {
+const Nav = ({ isAuthenticated, logOutConnect }: IProps) => {
+  const username = "eloszkla";
+
   return (
     <>
       <TopBar
