@@ -6,29 +6,23 @@ interface IProps {
   register: UseFormRegister<any>;
   name: string;
   rate?: number;
-  // onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function Stars({ register, name, errors, rate }: IProps) {
-  const stars = [""];
-
   return (
     <div className="stars">
-      {[1, 2, 3, 4, 5].map((value) => {
+      {[0, 1, 2, 3, 4].map((value) => {
         return (
           <React.Fragment key={value}>
             <input
               {...register(name)}
               type="radio"
-              id={`star${value}`}
+              id={`star-${value}${rate || "-edit"}`}
               name="rate"
-              value={value}
+              value={5 - value}
+              defaultChecked={value == rate - 1}
             />
-            <label
-              htmlFor={`star${value}`}
-              title="text"
-              className={value < rate ? "" : "filled"}
-            >
+            <label htmlFor={`star-${value}${rate || "-edit"}`} title="text">
               {value} stars
             </label>
           </React.Fragment>

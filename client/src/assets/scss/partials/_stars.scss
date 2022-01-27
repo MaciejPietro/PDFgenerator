@@ -4,12 +4,19 @@
   height: 46px;
   padding: 0 10px;
 
-  &:not(:checked) > input {
-    position: absolute;
-    top: -9999px;
+  input {
+    @apply opacity-0 invisible;
+
+    &:checked ~ label::before {
+      color: #c79c00;
+    }
+
+    &.filled ~ label::before {
+      color: #c79c00;
+    }
   }
 
-  &:not(:checked) > label {
+  label {
     float: right;
     width: 1em;
     overflow: hidden;
@@ -18,29 +25,13 @@
     font-size: 30px;
     color: #ccc;
 
-    &.filled {
-      @apply text-gray-900;
-    }
-
     &:before {
       content: "★ ";
     }
 
     &:hover,
     &:hover ~ label {
-      color: #deb217;
+      @apply text-gray-400;
     }
-  }
-
-  & > input:checked ~ label {
-    color: #ffc700;
-  }
-
-  & > input:checked + label:hover,
-  & > input:checked + label:hover ~ label,
-  & > input:checked ~ label:hover,
-  & > input:checked ~ label:hover ~ label,
-  & > label:hover ~ input:checked ~ label {
-    color: #c59b08;
   }
 }

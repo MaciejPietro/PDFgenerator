@@ -8,12 +8,6 @@ h1 {
 h2 {
 }
 
-.container {
-  @apply mx-auto;
-  max-width: 1480px;
-  padding: 0 30px;
-}
-
 body {
   &::-webkit-scrollbar {
     width: 12px;
@@ -33,5 +27,24 @@ body {
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
     background: rgb(158, 158, 158);
+  }
+}
+
+.dark {
+  h1 {
+    @apply text-white;
+  }
+
+  h2 {
+    @apply text-white;
+  }
+
+  .main {
+    @apply bg-gray-900;
+  }
+
+  .topbar,
+  .leftbar {
+    @apply bg-opacity-10 border-none;
   }
 }

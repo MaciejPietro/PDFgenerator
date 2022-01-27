@@ -1,5 +1,8 @@
 import AccountSettings from "../components/settings/AccountSettings";
 import PersonalSettings from "../components/settings/PersonalSettings";
+import GeneralSettings from "../components/settings/GeneralSettings";
+
+import Signature from "../components/Signature";
 
 import { NavLink, Switch, Route } from "react-router-dom";
 
@@ -14,6 +17,9 @@ const Settings = () => {
         <div className="flex items-start gap-16">
           <div className="w-60 rounded border border-gray-500 bg-white flex-shrink-0">
             <NavLink to="/settings" className={linkStyle}>
+              General Settings
+            </NavLink>
+            <NavLink to="/settings/personal" className={linkStyle}>
               Personal details
             </NavLink>
             <NavLink to="/settings/account" className={linkStyle}>
@@ -21,14 +27,28 @@ const Settings = () => {
             </NavLink>
           </div>
 
+          <Route
+            path="/settings"
+            exact={true}
+            component={() => {
+              return <GeneralSettings></GeneralSettings>;
+            }}
+          />
+
           <Switch>
             <Route
-              path="/settings"
+              path="/settings/personal"
               exact={true}
               component={() => {
-                return <PersonalSettings></PersonalSettings>;
+                return (
+                  <>
+                    <PersonalSettings></PersonalSettings>
+                    <Signature></Signature>;
+                  </>
+                );
               }}
             />
+
             <Route
               path="/settings/account"
               exact={true}

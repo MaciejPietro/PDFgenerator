@@ -1,14 +1,13 @@
-import LogoutIcon from "./logout.svg";
-import LoginIcon from "./login.svg";
-import SettingsIcon from "./settings.svg";
-
-import LandingIcon from "./landing.svg";
-import TemplatesIcon from "./templates.svg";
-import ClockIcon from "./clock.svg";
-import ClientsIcon from "./clients.svg";
-import SlideInBarsIcon from "./slide-in-bars.svg";
-import SlideOutBarsIcon from "./slide-out-bars.svg";
-import Chevron from "./chevron.svg";
+const LogoutIcon = require("./logout.svg");
+const LoginIcon = require("./login.svg");
+const SettingsIcon = require("./settings.svg");
+const LandingIcon = require("./landing.svg");
+const TemplatesIcon = require("./templates.svg");
+const ClockIcon = require("./clock.svg");
+const ClientsIcon = require("./clients.svg");
+const SlideInBarsIcon = require("./slide-in-bars.svg");
+const SlideOutBarsIcon = require("./slide-out-bars.svg");
+const Chevron = require("./chevron.svg");
 
 export {
   LogoutIcon,

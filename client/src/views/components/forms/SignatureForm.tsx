@@ -1,24 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { setSignature } from "../../../redux/actions/accountActions";
+import { connect } from "react-redux";
 import SignaturePad from "react-signature-canvas";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-const SignatureCreator = () => {
-  const [signatures, setSignatures] = useState([]);
-  const [selectedSignature, setSelectedSignature] = useState();
+const schema = yup.object().shape({
+  image: yup.string(),
+});
 
+interface IProps {
+  updateSignature: (string) => void;
+}
+
+const SignatureForm = ({ updateSignature }: IProps) => {
+  const [signatures, setSignatures] = useState<string[]>([]);
   let sigPad = {};
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<any>({
+    resolver: yupResolver(schema),
+  });
+
   const clear = (sigPad) => {
     sigPad.clear();
   };
+
   const add = (sigPad) => {
+    if (sigPad.isEmpty()) return;
     setSignatures((prevState) => [
       ...prevState,
       sigPad.getTrimmedCanvas().toDataURL("image/png"),
     ]);
   };
 
-  const update = (ev) => {
-    ev.preventDefault();
+  const onSubmit = (fData) => {
+    fetch(fData["signature"])
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], "Signature", { type: "image/png" });
+        const data = new FormData();
+        data.append("image", file);
+        data.append("prevImage", fData["prevImage"]);
+
+        setSignatures([]);
+        updateSignature(data);
+      });
   };
+
+  useEffect(() => {}, [signatures]);
 
   return (
     <>
@@ -48,17 +82,23 @@ const SignatureCreator = () => {
           </button>
         </div>
       </div>
-      <form onSubmit={update} className="mt-8">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        encType="multipart/form-data"
+        className="mt-8"
+      >
+        <input type="hidden" name="prevImage" value="..." />
         <div className="grid grid-cols-3 gap-4">
           {signatures.map((signature, key) => (
             <div key={key}>
               <input
-                name={`signature-${key}`}
+                {...register("signature")}
+                name="signature"
                 id={`signature-${key}`}
+                value={signature}
                 type="radio"
-                checked={selectedSignature === signature}
-                onChange={() => setSelectedSignature(signature)}
               />
+
               <label htmlFor={`signature-${key}`}>
                 <img
                   className="border border-gray-900 p-4 bg-white"
@@ -70,6 +110,7 @@ const SignatureCreator = () => {
         </div>
         {signatures.length > 0 && (
           <button
+            onClick={() => clear(sigPad)}
             type="submit"
             className="border border-blue-300 bg-gray-200 px-6 py-2 mt-4"
           >
@@ -81,4 +122,4 @@ const SignatureCreator = () => {
   );
 };
 
-export default SignatureCreator;
+export default SignatureForm;

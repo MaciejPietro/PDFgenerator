@@ -5,7 +5,6 @@ import { useSettings } from "../../hooks/index";
 import { setPersonal } from "../../../redux/actions/accountActions";
 import { IPersonalDetailsData } from "../../../redux/types";
 import { connect } from "react-redux";
-import Signature from "../Signature";
 
 interface IProps {
   setPersonalConnect: () => Promise<any>;
@@ -34,7 +33,6 @@ const PersonalSettings = ({ setPersonalConnect }: IProps) => {
         <PersonalSettingsForm submitForm={submitForm} details={Personal} />
         <div>{message}</div>
       </div>
-      <Signature />
     </>
   );
 };

@@ -24,3 +24,12 @@ export type DELETECLIENT = typeof DELETECLIENT;
 
 export const EDITCLIENT = "EDITCLIENT";
 export type EDITCLIENT = typeof EDITCLIENT;
+
+export const SIGNATURE = "SIGNATURE";
+export type SIGNATURE = typeof SIGNATURE;
+
+export const CURRENCIES = "CURRENCIES";
+export type CURRENCIES = typeof CURRENCIES;
+
+export const LICENSIONS = "LICENSIONS";
+export type LICENSIONS = typeof LICENSIONS;

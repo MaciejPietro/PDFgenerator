@@ -12,7 +12,7 @@ const texts = [
 const Hero: React.FC = () => {
   return (
     <section className="hero bg-blue-200">
-      <div className="container-lg">
+      <div className="container">
         <div className="grid grid-flow-col grid-rows-2 sm:grid-rows-1 sm:grid-cols-2 gap-4 py-24 pl-16">
           <div className="flex items-center justify-center">
             <main className="max-w-screen-xl px-4 lg:px-16">

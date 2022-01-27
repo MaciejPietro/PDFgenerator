@@ -1,37 +1,52 @@
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
+
 import { LogoutIcon, LoginIcon, SettingsIcon } from "../../../assets/icons";
+import { connect } from "react-redux";
+import { logOut } from "../../../redux/actions/authActions";
 
 interface IProps {
-  isAuthenticated: boolean | null;
-  username: string | null;
   logOutConnect: () => void;
+  isAuth: Boolean | null;
+  username: string;
 }
 
-const TopBar = ({ isAuthenticated, username, logOutConnect }: IProps) => {
+const TopBar = ({ logOutConnect, isAuth, username }: IProps) => {
   return (
-    <nav className={`topbar ${isAuthenticated && "topbar--authenticated"}`}>
+    <nav className={`topbar ${isAuth && "topbar--authenticated"}`}>
       <div className="topbar__container">
-        {isAuthenticated && (
+        {isAuth && (
           <>
             <div>
               <div className="text-sm text-blue-900">Logged in as</div>
-              <div className="font-medium">{username}</div>
+              {/* <div className="font-medium">{username}</div> */}
             </div>
-            <NavLink to="/settings" className="topbar__container__icon">
+            {/* <NavLink to="/settings" className="topbar__container__icon">
               <SettingsIcon />
-            </NavLink>
+            </NavLink> */}
           </>
         )}
+
         <NavLink
-          to={isAuthenticated ? "/" : "/log-in"}
-          onClick={() => isAuthenticated && logOutConnect()}
+          to={isAuth ? "/" : "/login"}
+          onClick={() => isAuth && logOutConnect()}
           className="topbar__container__icon"
         >
-          {isAuthenticated ? <LogoutIcon /> : <LoginIcon />}
+          {isAuth ? <LogoutIcon /> : <LoginIcon />}
         </NavLink>
       </div>
     </nav>
   );
 };
 
-export default TopBar;
+const mapStateToProps = (state: any) => {
+  return {
+    username: state.authReducer,
+    isAuth: state.authReducer.isAuth,
+  };
+};
+
+const mapDispatchToProps = {
+  logOutConnect: logOut,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TopBar);

@@ -1,41 +1,32 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { Route } from "react-router-dom";
-
-import history from "../history";
-import { ICurrentUser } from "../../redux/types";
+import { Route, Redirect } from "react-router-dom";
 
 interface IProps {
   exact?: boolean;
-  isAuthenticated: boolean | null;
+  isAuth: boolean | null;
   path: string | string[];
   component: React.ComponentType<any>;
 }
 
-const LoggedInRoute = ({ component: Component, isAuthenticated }: IProps) => {
-  // useEffect(() => {
-  //   if (isAuthenticated !== false) {
-  //     history.push("/log-in");
-  //   }
-  // });
+const LoggedInRoute = ({ component: Component, isAuth }: IProps) => {
+  if (isAuth == null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       <Route
-        render={(otherProps) => (
-          <>
-            <div className="container">
-              <Component {...otherProps} />
-            </div>
-          </>
-        )}
+        render={(otherProps) =>
+          !isAuth ? <Redirect to="/login" /> : <Component {...otherProps} />
+        }
       />
     </>
   );
 };
 
 const mapStateToProps = (state: any) => ({
-  isAuthenticated: !!state.authReducer.userID,
+  isAuth: state.authReducer.isAuth,
 });
 
 export default connect(mapStateToProps)(LoggedInRoute);

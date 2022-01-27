@@ -22,7 +22,7 @@ const verifyJWT = (req, res, next) => {
       } else {
         res.json({ auth: true })
         req._id = decoded.id
-        next()
+        // next()
       }
     })
   }
@@ -38,9 +38,8 @@ routes.post('/login', (req, res) => {
     if (!user) return res.status(200).send(false)
     const id = user._id
     const token = jwt.sign({ id }, 'jwtSecret', {
-      expiresIn: 60, //ms
+      expiresIn: 6000, //ms
     })
-    console.log('user', user._id)
 
     return res.status(200).send({ user, auth: true, token })
   })
@@ -87,9 +86,9 @@ routes.post('/register', ({ body }, res) => {
   )
 })
 
-routes.get('/account/:id', async ({ params: { id } }, res) => {
+routes.get('/account/:_id', async ({ params: { _id } }, res) => {
   await User.findOne(
-    { _id: id },
+    { _id },
     {
       username: 1,
       email: 1,
@@ -103,9 +102,9 @@ routes.get('/account/:id', async ({ params: { id } }, res) => {
   )
 })
 
-routes.get('/user/:id', async ({ params: { id } }, res) => {
+routes.get('/user/:_id', async ({ params: { _id } }, res) => {
   await User.findOne(
-    { _id: id },
+    { _id },
     {
       personalDetails: {
         country: 1,
@@ -124,6 +123,112 @@ routes.get('/user/:id', async ({ params: { id } }, res) => {
   )
 })
 
+//SIGNATURE
+
+routes.get('/signature/:_id', async (req, res) => {
+  await User.findOne(
+    { _id: req.params._id },
+    {
+      signatureKey: 1,
+    },
+    function (err, user) {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+      const ObjPromise = getObject(user.signatureKey)
+      ObjPromise.then((imgBase64) => {
+        return res.status(200).send({ img: imgBase64, key: user.signatureKey })
+      })
+    },
+  )
+})
+
+routes.patch(
+  '/signature/:_id',
+  upload.single('image'),
+  async ({ body, file, params }, res) => {
+    let signatureKey
+    if (file) {
+      const result = await uploadFile(file)
+      await unlinkFile(file.path)
+      signatureKey = result.Key
+    }
+
+    await User.findOneAndUpdate(
+      { _id: params._id },
+      { $set: { signatureKey: signatureKey } },
+      { new: true },
+      (err, user) => {
+        if (err) return res.status(500).send(err)
+        if (!user) return res.status(200).send(false)
+        const ObjPromise = getObject(user.signatureKey)
+        ObjPromise.then((imgBase64) => {
+          return res.status(200).send(imgBase64)
+        })
+      },
+    )
+  },
+)
+
+//CURRENCIES
+
+routes.get('/currencies/:_id', async ({ params: { _id } }, res) => {
+  await User.findOne(
+    { _id },
+    {
+      currencies: 1,
+    },
+    function (err, user) {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+      return res.status(200).send(user)
+    },
+  )
+})
+
+routes.patch('/currencies/:_id', ({ body, params: { _id } }, res) => {
+  User.findOneAndUpdate(
+    { _id },
+    { $set: { currencies: body } },
+    { useFindAndModify: false, new: true },
+    (err, user) => {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+      return res.status(200).send(user.currencies)
+    },
+  )
+})
+
+//CURRENCIES
+
+routes.get('/licensions/:_id', async ({ params: { _id } }, res) => {
+  await User.findOne(
+    { _id },
+    {
+      licensions: 1,
+    },
+    function (err, user) {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+      return res.status(200).send(user.licensions)
+    },
+  )
+})
+
+// routes.patch('/currencies/:_id', ({ body, params: { _id } }, res) => {
+//   User.findOneAndUpdate(
+//     { _id },
+//     { $set: { currencies: body } },
+//     { useFindAndModify: false, new: true },
+//     (err, user) => {
+//       if (err) return res.status(500).send(err)
+//       if (!user) return res.status(200).send(false)
+//       return res.status(200).send(user.currencies)
+//     },
+//   )
+// })
+
+//SETTINGS
+
 routes.patch('/update-user/:id', ({ body: { data }, params: { id } }, res) => {
   User.findOneAndUpdate(
     { _id: id },
@@ -137,26 +242,14 @@ routes.patch('/update-user/:id', ({ body: { data }, params: { id } }, res) => {
   )
 })
 
-// function encode(data) {
-//   let buf = Buffer.from(data)
-//   let base64 = buf.toString('base64')
-//   return base64
-// }
-
-// routes.get('/images/:key', (req, res) => {
-//   const key = req.params.key
-//   const readStream = getFileStream(key)
-//   // const img = getImage(key)
-//   return readStream.pipe(res)
-// })
-
 // CLIENTS ----------------------
 
-async function convertImage(clients, res) {
+async function convertImages(clients, res) {
   const imgs = []
 
-  clients.forEach((client) => {
-    const imgBase64 = getObject(client.image)
+  clients.forEach(({ image }) => {
+    if (!image) return
+    const imgBase64 = getObject(image)
     imgs.push(imgBase64)
   })
 
@@ -175,6 +268,7 @@ routes.patch(
   upload.single('image'),
   async ({ body, file, params: { _id, _clientID } }, res) => {
     if (file) {
+      deleteFile(body.imageKey)
       const result = await uploadFile(file)
       await unlinkFile(file.path)
       body.image = result.Key
@@ -187,7 +281,7 @@ routes.patch(
       (err, user) => {
         if (err) return res.status(500).send(err)
         if (!user) return res.status(200).send(false)
-        return convertImage(user.clients, res)
+        return convertImages(user.clients, res)
       },
     )
   },
@@ -212,7 +306,8 @@ routes.get('/clients/:id', async ({ params: { id } }, res) => {
       if (err) return res.status(500).send(err)
       if (!user) return res.status(200).send(false)
 
-      return convertImage(user.clients, res)
+      // return res.status(200).send(user.clients)
+      return convertImages(user.clients, res)
     },
   )
 })
@@ -227,14 +322,17 @@ routes.delete(
         if (err) return res.status(500).send(err)
         if (!user) return res.status(200).send(false)
 
+        console.log('user clients ', user)
+
         const clients = user.clients.filter((el) => {
           if (el._id == _clientID) {
+            console.log('delete ', el.image)
             deleteFile(el.image)
           }
           return el._id != _clientID
         })
 
-        return convertImage(clients, res)
+        return convertImages(clients, res)
       },
     )
   },
@@ -253,11 +351,11 @@ routes.post(
     User.findOneAndUpdate(
       { _id: params._id },
       { $push: { clients: body } },
-      { new: true, upsert: true },
+      { new: true },
       (err, user) => {
         if (err) return res.status(500).send(err)
         if (!user) return res.status(200).send(false)
-        return convertImage(user.clients, res)
+        return convertImages(user.clients, res)
       },
     )
   },

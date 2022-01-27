@@ -19,10 +19,19 @@ const s3 = new S3({
 })
 
 function deleteFile(key) {
-  s3.deleteObject({
-    Bucket: bucketName,
-    Key: key,
-  })
+  s3.deleteObject(
+    {
+      Bucket: bucketName,
+      Key: key,
+    },
+    function (deleteErr, data) {
+      if (deleteErr) {
+        console.log('Error: ' + deleteErr)
+      } else {
+        console.log('Successfully deleted the item')
+      }
+    },
+  )
 }
 exports.deleteFile = deleteFile
 
@@ -39,21 +48,39 @@ function uploadFile(file) {
 }
 exports.uploadFile = uploadFile
 
-function getObject(Key) {
-  return new Promise(async (resolve, reject) => {
-    const getObjectCommand = new GetObjectCommand({ Bucket: bucketName, Key })
+// function getObject(Key) {
+//   return new Promise(async (resolve, reject) => {
+//     const getObjectCommand = new GetObjectCommand({ Bucket: bucketName, Key })
 
-    try {
-      const response = await client.send(getObjectCommand)
-      let responseDataChunks = []
-      response.Body.on('data', (chunk) => responseDataChunks.push(chunk))
+//     try {
+//       const response = await client.send(getObjectCommand)
+//       let responseDataChunks = []
+//       response.Body.on('data', (chunk) => responseDataChunks.push(chunk))
 
-      response.Body.once('end', () =>
-        resolve(Buffer.concat(responseDataChunks).toString('base64')),
-      )
-    } catch (err) {
-      return resolve('')
+//       response.Body.once('end', () =>
+//         resolve(Buffer.concat(responseDataChunks).toString('base64')),
+//       )
+//     } catch (err) {
+//       return resolve('')
+//     }
+//   })
+// }
+// exports.getObject = getObject
+
+async function getObject(objectKey) {
+  try {
+    const params = {
+      Bucket: bucketName,
+      Key: objectKey,
     }
-  })
+
+    const data = await s3.getObject(params).promise()
+
+    return data.Body.toString('base64')
+  } catch (e) {
+    return ''
+
+    // throw new Error(`Could not retrieve file from S3: ${e.message}`)
+  }
 }
 exports.getObject = getObject

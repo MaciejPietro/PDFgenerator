@@ -31,8 +31,12 @@ export interface IPersonalDetailsData {
 }
 
 export interface IAccountStore {
+  signature: string;
+  signatureKey: string;
+  currencies: string[];
   account: IUserRegisterData;
-  Personal: IPersonalDetailsData;
+  personal: IPersonalDetailsData;
+  licensions: ILicension[];
 }
 
 export interface IClientData {
@@ -52,4 +56,14 @@ export interface ISaleBeat {
   currency: string | null;
   licension: string | null;
   client: IClientData | null;
+}
+
+export interface ICurrencies {
+  currencies: string[] | null;
+}
+
+export interface ILicension {
+  _id: string | null;
+  name: string | null;
+  details: string[];
 }

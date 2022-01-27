@@ -1,12 +1,25 @@
 import {
   IPersonalDetailsAction,
   ISetAccountAction,
+  ISetSignatureAction,
+  ISetCurrenciesAction,
+  ISetLicensionsAction,
 } from "../actions/accountActions";
-import { PERSONALDETAILS, ACCOUNTDETAILS } from "../constants";
+import {
+  PERSONALDETAILS,
+  ACCOUNTDETAILS,
+  SIGNATURE,
+  CURRENCIES,
+  LICENSIONS,
+} from "../constants";
 import { IAccountStore } from "../types";
 
-export default function acountReducer(
+export default function accountReducer(
   state: IAccountStore = {
+    signature: null,
+    signatureKey: null,
+    currencies: null,
+    licensions: null,
     account: {
       username: null,
       password: null,
@@ -21,7 +34,12 @@ export default function acountReducer(
       localization: null,
     },
   },
-  action: IPersonalDetailsAction | ISetAccountAction,
+  action:
+    | IPersonalDetailsAction
+    | ISetAccountAction
+    | ISetSignatureAction
+    | ISetCurrenciesAction
+    | ISetLicensionsAction,
 ): IAccountStore {
   switch (action.type) {
     case PERSONALDETAILS:
@@ -44,6 +62,22 @@ export default function acountReducer(
           password: action.data.password,
           email: action.data.email,
         },
+      };
+    case SIGNATURE:
+      return {
+        ...state,
+        signature: action.data.img,
+        signatureKey: action.data.key,
+      };
+    case CURRENCIES:
+      return {
+        ...state,
+        currencies: action.data,
+      };
+    case LICENSIONS:
+      return {
+        ...state,
+        licensions: action.data,
       };
   }
   return state;

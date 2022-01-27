@@ -22,7 +22,8 @@ const CreatorForm = ({ submitForm, changeForm, clients }) => {
   });
 
   const onSubmit = (data: ISaleBeat) => {
-    submitForm(data);
+    console.log(data);
+    // submitForm(data);
   };
 
   return (
@@ -51,9 +52,7 @@ const CreatorForm = ({ submitForm, changeForm, clients }) => {
             }}
           >
             <option value="basic">Basic</option>
-            <option value="standard">Standard</option>
             <option value="premium">Premium</option>
-            <option value="unlimited">Unlimited</option>
             <option value="exclusive">Exclusive</option>
           </Select>
           <Select
@@ -67,8 +66,9 @@ const CreatorForm = ({ submitForm, changeForm, clients }) => {
             }}
           >
             <option value="usd">US Dollar</option>
-            <option value="pln">Polish Zloty</option>
-            <option value="euro">Euro</option>
+            <option value="pln">PL Zloty</option>
+            <option value="euro">EU Euro</option>
+            <option value="crypto">Crypto</option>
           </Select>
           <Select
             register={register}
@@ -80,7 +80,7 @@ const CreatorForm = ({ submitForm, changeForm, clients }) => {
             }}
           >
             {clients.map((el) => (
-              <option key={el.id} value={el.id}>
+              <option key={el._id} value={el._id}>
                 {el.name}
               </option>
             ))}

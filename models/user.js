@@ -15,6 +15,8 @@ const userSchema = new Schema(
       type: String,
       require: true,
     },
+    signatureKey: String,
+    currencies: Array,
     personalDetails: {
       name: String,
       surname: String,
@@ -23,6 +25,7 @@ const userSchema = new Schema(
       country: String,
       localization: String,
     },
+    licensions: [{ type: Object, ref: 'Licension' }],
     clients: [{ type: Object, ref: 'Client' }],
   },
   { timestamps: true },
@@ -38,30 +41,37 @@ const clientSchema = new Schema(
       type: String,
       required: true,
     },
-    realname: {
-      type: String,
-      required: false,
-    },
-    country: {
-      type: String,
-      required: false,
-    },
     email: {
       type: String,
       required: true,
     },
-    profession: {
+    realname: String,
+    country: String,
+    profession: String,
+    image: String,
+    rate: Number,
+  },
+  { timestamps: true },
+)
+
+const licensionSchema = new Schema(
+  {
+    _id: {
+      type: Number,
+      required: true,
+    },
+    name: {
       type: String,
-      required: false,
+      required: true,
     },
-    rate: {
-      name: Number,
-    },
+    details: [String],
   },
   { timestamps: true },
 )
 
 mongoose.model('Client', clientSchema)
+mongoose.model('Licension', licensionSchema)
+
 const User = mongoose.model('User', userSchema)
 
 module.exports = User

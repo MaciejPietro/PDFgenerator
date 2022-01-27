@@ -21,23 +21,19 @@ const Pages = () => {
   return (
     <Switch>
       <LoggedOutRoute path="/" exact={true} component={Landing} />
-      <LoggedOutRoute path="/log-in" exact={true} component={LogIn} />
+      <LoggedOutRoute path="/login" exact={true} component={LogIn} />
       <LoggedOutRoute path="/register" exact={true} component={Register} />
-
       <LoggedInRoute path="/log-out" exact={true} component={LogOut} />
       <LoggedInRoute path="/dashboard" exact={true} component={Dashboard} />
       <LoggedInRoute path="/templates" exact={true} component={Templates} />
       <LoggedInRoute path="/clients" exact={true} component={Clients} />
 
       <LoggedInRoute
-        path={["/settings", "/settings/account"]}
+        path={["/settings", "/settings/account", "/settings/general"]}
         component={Settings}
       />
 
-      <LoggedInRoute
-        path={["/creator", "/creator/producer"]}
-        component={Creator}
-      />
+      <LoggedInRoute path={["/creator"]} component={Creator} />
 
       <Route component={NotFound} />
     </Switch>

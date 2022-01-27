@@ -1,5 +1,8 @@
 import LeftBarLink from "./LeftBarLink";
+import { useContext, useEffect } from "react";
+
 import LeftBarRollupIcon from "./LeftBarRollupIcon";
+import { Context } from "../../App";
 
 import {
   SettingsIcon,
@@ -10,14 +13,14 @@ import {
 } from "../../../assets/icons";
 
 interface IProps {
-  isAuthenticated: boolean | null;
+  isAuth: Boolean | null;
 }
 
-const LeftBar = ({ isAuthenticated }: IProps) => {
+const LeftBar = ({ isAuth }: IProps) => {
   return (
     <nav className="leftbar">
       <ul className="mt-16 px-2 text-gray-900">
-        {isAuthenticated ? (
+        {isAuth ? (
           <>
             <LeftBarLink name="/dashboard">
               <LandingIcon />

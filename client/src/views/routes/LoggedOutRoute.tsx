@@ -1,43 +1,37 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
 import history from "../history";
 import { ICurrentUser } from "../../redux/types";
 
 interface IProps {
   exact?: boolean;
-  isAuthenticated: boolean | null;
+  isAuth: boolean | null;
   path: string;
   component: React.ComponentType<any>;
 }
 
 const LoggedOutRoute = ({
   component: Component,
-  isAuthenticated,
+  isAuth,
   ...otherProps
 }: IProps) => {
-  useEffect(() => {
-    if (isAuthenticated === true) {
-      history.push("/dashboard");
-    }
-  });
+  // useEffect(() => {
+  //   if (isAuth === true) {
+  //     history.push("/dashboard");
+  //   }
+  // });
 
   return (
     <>
-      <Route
-        render={(otherProps) => (
-          <>
-            <Component {...otherProps} />
-          </>
-        )}
-      />
+      <Route render={(otherProps) => <Component {...otherProps} />} />
     </>
   );
 };
 
 const mapStateToProps = (state: any) => ({
-  isAuthenticated: !!state.authReducer.userID,
+  isAuth: state.authReducer.isAuth,
 });
 
 export default connect(mapStateToProps)(LoggedOutRoute);

@@ -6,13 +6,11 @@ import { IUserRegisterData } from "../../redux/types";
 
 export interface IAuthenticate {
   type: constants.AUTHENTICATE;
-  userID: string;
 }
 
-function authenticate(userID: string): IAuthenticate {
+function authenticate(): IAuthenticate {
   return {
     type: constants.AUTHENTICATE,
-    userID: userID,
   };
 }
 
@@ -80,8 +78,8 @@ export function logIn(payload: [string, string]) {
 
 export function logOut() {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
-    window.localStorage.setItem("userID", null);
-    window.localStorage.setItem("token", null);
+    window.localStorage.removeItem("userID");
+    window.localStorage.removeItem("token");
     dispatch(unauthenticate());
   };
 }
@@ -91,7 +89,7 @@ export function authentication() {
     const userID = window.localStorage.getItem("userID");
     const token = window.localStorage.getItem("token");
 
-    axios
+    return axios
       .get("/api/auth", {
         headers: {
           "x-access-token": token,
@@ -99,8 +97,11 @@ export function authentication() {
       })
       .then((res) => {
         if (res.data.auth) {
-          dispatch(authenticate(userID));
+          dispatch(authenticate());
         } else {
+          window.localStorage.removeItem("userID");
+          window.localStorage.removeItem("token");
+          logOut();
           dispatch(unauthenticate());
         }
       });

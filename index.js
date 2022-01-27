@@ -36,6 +36,8 @@ User.findOne({ username: 'user' }, function (err, docs) {
       username: 'user',
       password: 'password1',
       email: 'maciejwsrh97@wp.pl',
+      signatureKey: 'be21c85f0db279c16993796ed47ad2f5',
+      currencies: ['USD', 'EUR'],
       personalDetails: {
         name: 'Maciej',
         surname: 'Pietro',
@@ -44,6 +46,23 @@ User.findOne({ username: 'user' }, function (err, docs) {
         country: 'Poland',
         localization: 'wyrzysk',
       },
+      licensions: [
+        {
+          _id: '007',
+          name: 'Basic',
+          details: ['mp3 + wav', 'can upload nowhere'],
+        },
+        {
+          _id: '008',
+          name: 'Premium',
+          details: ['wav + stems', 'can upload somewhere'],
+        },
+        {
+          _id: '009',
+          name: 'Exclusive',
+          details: ['wav + stems', 'can upload everywhere'],
+        },
+      ],
       clients: [
         {
           _id: '997',

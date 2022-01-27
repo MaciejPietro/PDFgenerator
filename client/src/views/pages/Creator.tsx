@@ -47,7 +47,7 @@ const Creator = () => {
 
       <div className="grid grid-cols-4">
         <div className="col-start-1 col-end-4">
-          <DocumentPreview data={info} personal={personal} />
+          {/* <DocumentPreview data={info} personal={personal} /> */}
         </div>
         <div className="col-start-4 col-end-5">
           <div className="sticky top-24">

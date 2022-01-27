@@ -12,7 +12,7 @@ export default function useClients() {
   useEffect(() => {
     let cancel = false;
 
-    if (!clientData[0]._id) {
+    if (!clientData[0]?._id) {
       dispatch(setClientsData()).then(({ data }) => {
         if (cancel) return;
 

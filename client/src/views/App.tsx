@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Route, Router } from "react-router-dom";
 import "../assets/scss/app-base.scss";
@@ -6,36 +6,45 @@ import "../assets/scss/app-utilities.scss";
 import "../assets/scss/app-components.scss";
 
 import history from "./history";
-import Nav from "./components/Nav";
+import TopBar from "./components/navs/TopBar";
+import LeftBar from "./components/navs/LeftBar";
+
 import Pages from "./routes/Pages";
 import { authentication } from "../redux/actions/authActions";
-
+import { createContext } from "react";
 // import { ICurrentUser } from "../redux/types";
+const Context = createContext("Default Value");
+export { Context };
 
 interface IProps {
-  authenticationConnect: () => void;
-  isAuthenticated: boolean | null;
+  authenticationConnect: () => Promise<any>;
+  isAuth: boolean | null;
 }
 
-const App = ({ authenticationConnect, isAuthenticated }: IProps) => {
-  React.useEffect(() => {
+const App = ({ authenticationConnect, isAuth }: IProps) => {
+  useEffect(() => {
     authenticationConnect();
   }, []);
 
   return (
-    <div className="App">
+    <div>
+      {/* <Context.Provider value={auth}> */}
       <Router history={history}>
-        <Nav isAuthenticated={isAuthenticated} />
+        <TopBar />
         <div className="main">
-          <Route component={Pages} />
+          <LeftBar isAuth={isAuth} />
+          <div className="ml-16 pt-16 min-h-screen">
+            <Route component={Pages} />
+          </div>
         </div>
       </Router>
+      {/* </Context.Provider> */}
     </div>
   );
 };
 
 const mapStateToProps = (state: any) => ({
-  isAuthenticated: !!state.authReducer.userID,
+  isAuth: state.authReducer.isAuth,
   username: state.authReducer.username,
 });
 

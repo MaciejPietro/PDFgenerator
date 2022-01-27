@@ -45,7 +45,6 @@ function AddClient({ submitForm }) {
   });
   const onSubmit = (fData: IClientData) => {
     const data = new FormData();
-
     for (const key in fData) {
       data.append(key, key === "image" ? fData[key][0] : fData[key]);
     }

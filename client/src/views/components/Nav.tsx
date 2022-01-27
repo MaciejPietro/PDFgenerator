@@ -1,38 +1,31 @@
 import * as React from "react";
 import TopBar from "./navs/TopBar";
-import LeftBar from "./navs/LeftBar";
 
 import { connect } from "react-redux";
 import { logOut } from "../../redux/actions/authActions";
 
 interface IProps {
+  username: string;
+  isAuth: boolean | null;
   logOutConnect: () => void;
 }
 
-interface IProps {
-  isAuthenticated: boolean | null;
-  // username: string | null;
-  logOutConnect: () => void;
-}
-
-const Nav = ({ isAuthenticated, logOutConnect }: IProps) => {
-  const username = "eloszkla";
-
+const Nav = ({ isAuth, username, logOutConnect }: IProps) => {
   return (
     <>
       <TopBar
-        isAuthenticated={isAuthenticated}
+        isAuth={isAuth}
         username={username}
         logOutConnect={logOutConnect}
       />
-      <LeftBar isAuthenticated={isAuthenticated} />
     </>
   );
 };
 
 const mapStateToProps = (state: any) => {
   return {
-    userID: state.authReducer.userID,
+    username: state.authReducer.username,
+    isAuth: state.authReducer.isAuth,
   };
 };
 
