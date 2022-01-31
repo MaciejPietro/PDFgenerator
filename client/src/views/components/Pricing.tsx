@@ -2,7 +2,7 @@ const Pricing = () => {
   return (
     <section id="pricing" className="mb-24">
       <div className="background">
-        <div className="container">
+        <div className="container-md">
           <div className="panel pricing-table">
             <div className="pricing-plan">
               <img

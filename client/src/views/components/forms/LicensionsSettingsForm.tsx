@@ -1,73 +1,36 @@
-import { useEffect, useState, useRef, createRef } from "react";
-import { useLicensions } from "../../hooks/index";
-
-interface IInput {
-  target: {
-    value: string;
-    checked: Boolean;
-  };
-}
+import { useEffect, useState, useRef, createRef, Key } from "react";
+import { useLicensions, useCurrencies } from "../../hooks/index";
+import LicensionPopup from "../settings/LicensionPopup";
+import { ILicension } from "../../../redux/types";
 
 interface IProps {
-  submitForm: (data: string[]) => void;
-  editLicension: (_id: string, data: any) => void;
+  currencies: string[];
+  // submitForm: (data: string[]) => void;
+  deleteLicension: any;
+  editLicension: (data: ILicension) => void;
+  licensions: ILicension[];
 }
 
-function LicensionsSettingsForm({ submitForm, editLicension }: IProps) {
-  const [licensions, setLicensions] = useLicensions();
-  // const [canUpdate, setCanUpdate] = useState(false);
-
-  const lics = licensions.map(() => createRef());
+function LicensionsSettingsForm({
+  deleteLicension,
+  editLicension,
+  currencies,
+  licensions,
+}: IProps) {
+  const lics = licensions && licensions.map(() => createRef<HTMLLIElement>());
 
   function rollAccordion(i: number) {
     const el = lics[i].current as HTMLLIElement;
     el.classList.toggle("h-6");
   }
 
-  const edit = (i) => {
-    console.log("edit", i);
-  };
-
-  const remove = (_id) => {
-    console.log("remove", _id);
-  };
-
-  // const changed = ({ target: { value, checked } }: IInput) => {
-  //   if (checked) {
-  //     setCurrencies((prevState) => [...prevState, value]);
-  //   } else {
-  //     setCurrencies(currencies.filter((item) => item !== value));
-  //   }
-
-  //   setCanUpdate(true);
-  // };
-
-  // const remove = (key: string) => {
-  //   setCurrencies(currencies.filter((item) => item !== key));
-
-  //   const input = document.getElementById(
-  //     "currency-" + key,
-  //   ) as HTMLInputElement;
-
-  //   input.checked = false;
-  //   setCanUpdate(true);
-  // };
-
-  // useEffect(() => {
-  //   console.log("reload", licensions);
-  // }, [licensions]);
-
   return (
-    <div className="grid grid-cols-2 gap-4 mt-4">
+    <div className="mt-4">
       <ul>
         {licensions &&
-          licensions.map(({ _id, name, details }, i) => {
+          licensions.map(({ _id, name, details, prices }, i) => {
             return (
-              <li
-                className="h-6 overflow-hidden"
-                key={_id}
-                ref={lics[i] as React.LegacyRef<HTMLLIElement>}
-              >
+              <li className="h-6 overflow-hidden" key={_id} ref={lics[i]}>
                 <div className="flex gap-24">
                   <h3
                     className="cursor-pointer font-bold"
@@ -80,20 +43,12 @@ function LicensionsSettingsForm({ submitForm, editLicension }: IProps) {
                   </h3>
 
                   <div className="flex gap-2">
-                    <button
-                      className="font-bold text-blue-900 text-xs"
-                      onClick={() => edit(i)}
-                    >
-                      {" "}
-                      EDIT{" "}
-                    </button>
-                    <button
-                      className="font-bold text-red-600 text-xs"
-                      onClick={() => remove(_id)}
-                    >
-                      {" "}
-                      REMOVE{" "}
-                    </button>
+                    <LicensionPopup
+                      editLicension={editLicension}
+                      deleteLicension={deleteLicension}
+                      licension={licensions[i]}
+                      currencies={currencies}
+                    />
                   </div>
                 </div>
                 <ul>
@@ -101,7 +56,18 @@ function LicensionsSettingsForm({ submitForm, editLicension }: IProps) {
                     details.map((detail, i) => {
                       return (
                         <li className="pl-2 text-sm" key={i}>
-                          {details}
+                          {detail}
+                        </li>
+                      );
+                    })}
+                </ul>
+                <ul>
+                  {currencies &&
+                    currencies.map((currency, i: Key) => {
+                      return (
+                        <li className="pl-2 text-sm" key={i}>
+                          {currency} <span>:</span>
+                          {prices ? prices[currency] : ""}
                         </li>
                       );
                     })}
@@ -110,6 +76,11 @@ function LicensionsSettingsForm({ submitForm, editLicension }: IProps) {
             );
           })}
       </ul>
+
+      <div>
+        <h3 className="font-bold mt-10">Add Licension</h3>
+        <LicensionPopup currencies={currencies} editLicension={editLicension} />
+      </div>
     </div>
   );
 }

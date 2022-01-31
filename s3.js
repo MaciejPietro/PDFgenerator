@@ -10,7 +10,7 @@ const { GetObjectCommand, S3Client } = require('@aws-sdk/client-s3')
 const client = new S3Client({
   region,
   credentials: { accessKeyId, secretAccessKey },
-}) // Pass in opts to S3 if necessary
+})
 
 const s3 = new S3({
   region,
@@ -48,25 +48,6 @@ function uploadFile(file) {
 }
 exports.uploadFile = uploadFile
 
-// function getObject(Key) {
-//   return new Promise(async (resolve, reject) => {
-//     const getObjectCommand = new GetObjectCommand({ Bucket: bucketName, Key })
-
-//     try {
-//       const response = await client.send(getObjectCommand)
-//       let responseDataChunks = []
-//       response.Body.on('data', (chunk) => responseDataChunks.push(chunk))
-
-//       response.Body.once('end', () =>
-//         resolve(Buffer.concat(responseDataChunks).toString('base64')),
-//       )
-//     } catch (err) {
-//       return resolve('')
-//     }
-//   })
-// }
-// exports.getObject = getObject
-
 async function getObject(objectKey) {
   try {
     const params = {
@@ -79,8 +60,6 @@ async function getObject(objectKey) {
     return data.Body.toString('base64')
   } catch (e) {
     return ''
-
-    // throw new Error(`Could not retrieve file from S3: ${e.message}`)
   }
 }
 exports.getObject = getObject

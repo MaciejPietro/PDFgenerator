@@ -8,8 +8,10 @@ const ClientsIcon = require("./clients.svg");
 const SlideInBarsIcon = require("./slide-in-bars.svg");
 const SlideOutBarsIcon = require("./slide-out-bars.svg");
 const Chevron = require("./chevron.svg");
+const Logo = require("./logo.svg");
 
 export {
+  Logo,
   LogoutIcon,
   LoginIcon,
   SettingsIcon,

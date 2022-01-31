@@ -62,8 +62,14 @@ export interface ICurrencies {
   currencies: string[] | null;
 }
 
+interface IPrice {
+  currency: string;
+  price: string;
+}
+
 export interface ILicension {
   _id: string | null;
   name: string | null;
   details: string[];
+  prices: Object;
 }

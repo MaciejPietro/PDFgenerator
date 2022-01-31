@@ -12,9 +12,10 @@ const schema = yup.object().shape({
 
 interface IProps {
   updateSignature: (string) => void;
+  signatureKey: string;
 }
 
-const SignatureForm = ({ updateSignature }: IProps) => {
+const SignatureForm = ({ updateSignature, signatureKey }: IProps) => {
   const [signatures, setSignatures] = useState<string[]>([]);
   let sigPad = {};
 
@@ -45,7 +46,7 @@ const SignatureForm = ({ updateSignature }: IProps) => {
         const file = new File([blob], "Signature", { type: "image/png" });
         const data = new FormData();
         data.append("image", file);
-        data.append("prevImage", fData["prevImage"]);
+        data.append("prevSigKey", signatureKey);
 
         setSignatures([]);
         updateSignature(data);
@@ -87,7 +88,6 @@ const SignatureForm = ({ updateSignature }: IProps) => {
         encType="multipart/form-data"
         className="mt-8"
       >
-        <input type="hidden" name="prevImage" value="..." />
         <div className="grid grid-cols-3 gap-4">
           {signatures.map((signature, key) => (
             <div key={key}>
@@ -98,7 +98,6 @@ const SignatureForm = ({ updateSignature }: IProps) => {
                 value={signature}
                 type="radio"
               />
-
               <label htmlFor={`signature-${key}`}>
                 <img
                   className="border border-gray-900 p-4 bg-white"

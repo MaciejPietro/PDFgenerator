@@ -72,7 +72,6 @@ export function setSignature(payload?: FormData) {
       `/api/signature/${userID}`,
       payload,
     ).then(({ data }) => {
-      console.log("elo", data);
       return dispatch(setSignatureAction(data));
     });
   };
@@ -135,5 +134,22 @@ export function setLicensions() {
     return axios.get<string[]>(`/api/licensions/${userID}`).then(({ data }) => {
       return dispatch(setLicensionsAction(data));
     });
+  };
+}
+
+export function editLicension(payload: ILicension) {
+  return async (dispatch) => {
+    const userID = window.localStorage.getItem("userID");
+    const { data } = await axios.post(`/api/licension/${userID}`, payload);
+
+    return data && dispatch(setLicensionsAction(data));
+  };
+}
+
+export function deleteLicension(payload: any) {
+  return async (dispatch) => {
+    const userID = window.localStorage.getItem("userID");
+    const { data } = await axios.delete(`/api/licension/${userID}/${payload}`);
+    return data && dispatch(setLicensionsAction(data));
   };
 }

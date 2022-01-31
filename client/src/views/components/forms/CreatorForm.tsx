@@ -22,7 +22,6 @@ const CreatorForm = ({ submitForm, changeForm, clients }) => {
   });
 
   const onSubmit = (data: ISaleBeat) => {
-    console.log(data);
     // submitForm(data);
   };
 

@@ -51,6 +51,10 @@ User.findOne({ username: 'user' }, function (err, docs) {
           _id: '007',
           name: 'Basic',
           details: ['mp3 + wav', 'can upload nowhere'],
+          prices: {
+            USD: 40,
+            EUR: 30,
+          },
         },
         {
           _id: '008',

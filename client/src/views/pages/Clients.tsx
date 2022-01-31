@@ -1,6 +1,6 @@
 import Table from "../components/Table";
 import AddClient from "../components/forms/ClientForm";
-import EditPopup from "../components/EditPopup";
+import ClientPopup from "../components/settings/ClientPopup";
 
 import { connect } from "react-redux";
 import {
@@ -67,7 +67,7 @@ function Clients({
         setEditedClient={setEditedClient}
         popup={popup}
       />
-      <EditPopup
+      <ClientPopup
         popup={popup}
         client={editedClient}
         stopEditing={stopEditing}

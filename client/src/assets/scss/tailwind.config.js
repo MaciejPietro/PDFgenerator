@@ -59,8 +59,8 @@ module.exports = {
       "7xl": "5rem",
     },
     fontFamily: {
-      sans: ["Rubik", "sans-serif"],
-      hero: ["Montserrat", "sans-serif"],
+      sans: ["SeoulNamsan CM", "sans-serif"],
+      gothic: ["URW Gothic L", "sans-serif"],
     },
     extend: {},
   },

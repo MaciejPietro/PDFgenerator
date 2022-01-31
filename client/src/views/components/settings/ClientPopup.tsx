@@ -1,14 +1,14 @@
-import { IClientData } from "../../redux/types";
+import { IClientData } from "../../../redux/types";
 
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Input from "../partials/Input";
-import Stars from "../partials/Stars";
-import InputImage from "../partials/InputImage";
+import Input from "../../partials/Input";
+import Stars from "../../partials/Stars";
+import InputImage from "../../partials/InputImage";
 import * as yup from "yup";
 
-import SubmitButton from "../partials/SubmitButton";
+import SubmitButton from "../../partials/SubmitButton";
 
 const schema = yup.object().shape({
   // id: yup.string().required(),
@@ -36,7 +36,12 @@ interface IProps {
   stopEditing: () => void;
 }
 
-const EditPopup: React.FC<IProps> = ({ client, popup, stopEditing, edit }) => {
+const ClientPopup: React.FC<IProps> = ({
+  client,
+  popup,
+  stopEditing,
+  edit,
+}) => {
   const {
     register,
     handleSubmit,
@@ -167,4 +172,4 @@ const EditPopup: React.FC<IProps> = ({ client, popup, stopEditing, edit }) => {
   );
 };
 
-export default EditPopup;
+export default ClientPopup;

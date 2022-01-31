@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useCurrencies } from "../../hooks/index";
 
 const currency_list = {
-  CRYPTO: "Cryptocurrency",
   AFA: "Afghan Afghani",
   ALL: "Albanian Lek",
   DZD: "Algerian Dinar",
@@ -178,10 +176,15 @@ interface IInput {
 
 interface IProps {
   submitForm: (data: string[]) => void;
+  currencies: any;
+  setCurrencies: any;
 }
 
-function CurrencySettingsForm({ submitForm }: IProps) {
-  const [currencies, setCurrencies] = useCurrencies();
+function CurrencySettingsForm({
+  submitForm,
+  currencies,
+  setCurrencies,
+}: IProps) {
   const [canUpdate, setCanUpdate] = useState(false);
 
   const changed = ({ target: { value, checked } }: IInput) => {
@@ -209,6 +212,8 @@ function CurrencySettingsForm({ submitForm }: IProps) {
     if (canUpdate) {
       submitForm(currencies);
     }
+
+    console.log(currencies);
   }, [currencies]);
 
   return (

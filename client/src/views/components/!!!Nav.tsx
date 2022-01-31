@@ -13,11 +13,7 @@ interface IProps {
 const Nav = ({ isAuth, username, logOutConnect }: IProps) => {
   return (
     <>
-      <TopBar
-        isAuth={isAuth}
-        username={username}
-        logOutConnect={logOutConnect}
-      />
+      <TopBar />
     </>
   );
 };

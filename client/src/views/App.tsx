@@ -33,7 +33,7 @@ const App = ({ authenticationConnect, isAuth }: IProps) => {
         <TopBar />
         <div className="main">
           <LeftBar isAuth={isAuth} />
-          <div className="ml-16 pt-16 min-h-screen">
+          <div className="pt-16 pl-16 bg-blue-200">
             <Route component={Pages} />
           </div>
         </div>

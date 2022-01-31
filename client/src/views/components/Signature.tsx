@@ -6,10 +6,10 @@ import { useSignature } from "../hooks/index";
 
 interface IProps {
   setSignatureConnect: (string) => Promise<any>;
-  accountStore: any;
+  signatureKey: string;
 }
 
-const Signature = ({ setSignatureConnect, accountStore }: IProps) => {
+const Signature = ({ setSignatureConnect, signatureKey }: IProps) => {
   const [signature, setSignature] = useSignature();
 
   const updateSignature = (data) => {
@@ -18,9 +18,7 @@ const Signature = ({ setSignatureConnect, accountStore }: IProps) => {
     });
   };
 
-  useEffect(() => {
-    console.log("signature ", signature);
-  }, [signature]);
+  useEffect(() => {}, [signature]);
 
   return (
     <div className="w-1/3">
@@ -36,14 +34,17 @@ const Signature = ({ setSignatureConnect, accountStore }: IProps) => {
         )}
       </div>
       <div>
-        <SignatureForm updateSignature={updateSignature} />
+        <SignatureForm
+          updateSignature={updateSignature}
+          signatureKey={signatureKey}
+        />
       </div>
     </div>
   );
 };
 
 const mapStateToProps = (state: any) => ({
-  accountStore: state.accountReducer,
+  signatureKey: state.accountReducer.signatureKey,
 });
 
 const mapDispatchToProps = {

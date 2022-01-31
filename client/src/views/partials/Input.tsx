@@ -11,6 +11,7 @@ interface IProps {
   type: string;
   placeholder?: string;
   value?: string;
+  inputKey?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -22,6 +23,7 @@ function Input({
   placeholder,
   value,
   onChange,
+  inputKey,
 }: IProps) {
   return (
     <label className="block text-grey-darker text-sm font-bold mb-2">
@@ -32,7 +34,8 @@ function Input({
         placeholder={placeholder}
         type={type}
         defaultValue={value || ""}
-        min="0"
+        key={inputKey}
+        // min="0"
       />
       <p>{errors && errors[name]?.message}</p>
     </label>

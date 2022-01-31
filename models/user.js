@@ -35,6 +35,7 @@ const clientSchema = new Schema(
   {
     _id: {
       type: Number,
+
       required: true,
     },
     name: {
@@ -57,14 +58,14 @@ const clientSchema = new Schema(
 const licensionSchema = new Schema(
   {
     _id: {
-      type: Number,
-      required: true,
+      type: mongoose.ObjectId,
     },
     name: {
       type: String,
       required: true,
     },
     details: [String],
+    prices: Object,
   },
   { timestamps: true },
 )

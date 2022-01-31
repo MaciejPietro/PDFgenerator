@@ -4,6 +4,7 @@ const User = require('../models/user')
 const fs = require('fs')
 const util = require('util')
 const unlinkFile = util.promisify(fs.unlink)
+const mongoose = require('mongoose')
 
 const { uploadFile, getObject, deleteFile } = require('../s3')
 const multer = require('multer')
@@ -160,6 +161,7 @@ routes.patch(
       (err, user) => {
         if (err) return res.status(500).send(err)
         if (!user) return res.status(200).send(false)
+        if (body.prevSigKey) deleteFile(body.prevSigKey)
         const ObjPromise = getObject(user.signatureKey)
         ObjPromise.then((imgBase64) => {
           return res.status(200).send(imgBase64)
@@ -198,7 +200,7 @@ routes.patch('/currencies/:_id', ({ body, params: { _id } }, res) => {
   )
 })
 
-//CURRENCIES
+//LICENSIONS
 
 routes.get('/licensions/:_id', async ({ params: { _id } }, res) => {
   await User.findOne(
@@ -214,18 +216,48 @@ routes.get('/licensions/:_id', async ({ params: { _id } }, res) => {
   )
 })
 
-// routes.patch('/currencies/:_id', ({ body, params: { _id } }, res) => {
-//   User.findOneAndUpdate(
-//     { _id },
-//     { $set: { currencies: body } },
-//     { useFindAndModify: false, new: true },
-//     (err, user) => {
-//       if (err) return res.status(500).send(err)
-//       if (!user) return res.status(200).send(false)
-//       return res.status(200).send(user.currencies)
-//     },
-//   )
-// })
+routes.post('/licension/:_id', ({ body, params: { _id } }, res) => {
+  let action = { $set: { 'licensions.$[p]': body } }
+
+  // console.log(body._id)
+
+  if (body._id == '') {
+    // body._id = null
+    body._id = new mongoose.mongo.ObjectID()
+    action = { $push: { licensions: body } }
+  }
+
+  User.findOneAndUpdate(
+    { _id },
+    action,
+    {
+      arrayFilters: [{ 'p._id': new mongoose.mongo.ObjectId(body._id) }],
+      new: true,
+    },
+    (err, user) => {
+      if (err) return res.status(500).send(err)
+      if (!user) return res.status(200).send(false)
+      return res.status(200).send(user.licensions)
+    },
+  )
+})
+
+routes.delete(
+  '/licension/:_id/:_licID',
+  async ({ params: { _id, _licID } }, res) => {
+    await User.findOneAndUpdate(
+      { _id },
+      { $pull: { licensions: { _id: new mongoose.mongo.ObjectId(_licID) } } },
+      { new: true },
+      (err, user) => {
+        if (err) return res.status(500).send(err)
+        if (!user) return res.status(200).send(false)
+
+        return res.status(200).send(user.licensions)
+      },
+    )
+  },
+)
 
 //SETTINGS
 
@@ -321,8 +353,6 @@ routes.delete(
       (err, user) => {
         if (err) return res.status(500).send(err)
         if (!user) return res.status(200).send(false)
-
-        console.log('user clients ', user)
 
         const clients = user.clients.filter((el) => {
           if (el._id == _clientID) {

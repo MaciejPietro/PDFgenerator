@@ -1,44 +1,17 @@
 @font-face {
-  font-family: "Rubik";
-  src: url("../fonts/Rubik-Light.woff") format("woff"),
-    url("../fonts/Rubik-Light.woff2") format("woff2");
+  font-family: "SeoulNamsan CM";
+  src: url("../fonts/SeN-CM.woff") format("woff"),
+    url("../fonts/SeN-CM.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Rubik";
-  src: url("../fonts/Rubik-Medium.woff") format("woff"),
-    url("../fonts/Rubik-Medium.woff") format("woff2");
+  font-family: "URW Gothic L";
+  src: url("../fonts/URWGothicL-Demi.woff") format("woff"),
+    url("../fonts/URWGothicL-Demi.woff2") format("woff2");
   font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Rubik";
-  src: url("../fonts/Rubik-SemiBold.woff") format("woff"),
-    url("../fonts/Rubik-SemiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("../fonts/Montserrat-ExtraBold.woff") format("woff"),
-    url("../fonts/Montserrat-ExtraBold.woff2") format("woff2");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("../fonts/Montserrat-Light.woff") format("woff"),
-    url("../fonts/Montserrat-Light.woff2") format("woff2");
-  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
