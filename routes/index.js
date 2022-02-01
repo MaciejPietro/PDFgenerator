@@ -219,10 +219,7 @@ routes.get('/licensions/:_id', async ({ params: { _id } }, res) => {
 routes.post('/licension/:_id', ({ body, params: { _id } }, res) => {
   let action = { $set: { 'licensions.$[p]': body } }
 
-  // console.log(body._id)
-
   if (body._id == '') {
-    // body._id = null
     body._id = new mongoose.mongo.ObjectID()
     action = { $push: { licensions: body } }
   }
@@ -245,6 +242,7 @@ routes.post('/licension/:_id', ({ body, params: { _id } }, res) => {
 routes.delete(
   '/licension/:_id/:_licID',
   async ({ params: { _id, _licID } }, res) => {
+    console.log(_id, _licID)
     await User.findOneAndUpdate(
       { _id },
       { $pull: { licensions: { _id: new mongoose.mongo.ObjectId(_licID) } } },

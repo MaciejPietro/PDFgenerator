@@ -13,6 +13,7 @@ interface IProps {
   value?: string;
   inputKey?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
 function Input({
@@ -31,10 +32,11 @@ function Input({
       <input
         {...register(name)}
         className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-        placeholder={placeholder}
+        // placeholder={placeholder}
         type={type}
         defaultValue={value || ""}
         key={inputKey}
+        onChange={onChange}
         // min="0"
       />
       <p>{errors && errors[name]?.message}</p>

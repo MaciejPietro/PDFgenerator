@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import CustomCurrency from "../CustomCurrency";
 
 const currency_list = {
   AFA: "Afghan Afghani",
@@ -178,33 +179,43 @@ interface IProps {
   submitForm: (data: string[]) => void;
   currencies: any;
   setCurrencies: any;
+  addCurrency: any;
 }
 
 function CurrencySettingsForm({
   submitForm,
   currencies,
   setCurrencies,
+  addCurrency,
 }: IProps) {
   const [canUpdate, setCanUpdate] = useState(false);
 
+  const isChecked = (key: string) =>
+    !!(
+      currencies &&
+      currencies.map((el: string) => el.split("-")[0]).indexOf(key) + 1
+    );
+
   const changed = ({ target: { value, checked } }: IInput) => {
     if (checked) {
-      setCurrencies((prevState) => [...prevState, value]);
+      setCurrencies((prevState: string[]) => [...prevState, value]);
     } else {
-      setCurrencies(currencies.filter((item) => item !== value));
+      setCurrencies(currencies.filter((item: string) => item !== value));
     }
 
     setCanUpdate(true);
   };
 
   const remove = (key: string) => {
-    setCurrencies(currencies.filter((item) => item !== key));
+    setCurrencies(currencies.filter((item: string) => item !== key));
 
     const input = document.getElementById(
       "currency-" + key,
     ) as HTMLInputElement;
 
-    input.checked = false;
+    if (input) {
+      input.checked = false;
+    }
     setCanUpdate(true);
   };
 
@@ -217,43 +228,54 @@ function CurrencySettingsForm({
   }, [currencies]);
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <form>
-        <fieldset className="h-96 overflow-auto">
-          {Object.keys(currency_list).map((key) => {
-            return (
-              <div key={key}>
-                <input
-                  onChange={changed}
-                  type="checkbox"
-                  id={"currency-" + key}
-                  value={key}
-                  checked={!!(currencies && currencies.indexOf(key) + 1)}
-                />
-                <label htmlFor={"currency-" + key}>
-                  <strong>{key}</strong>
-                  {currency_list[key]}
-                </label>
-              </div>
-            );
-          })}
-        </fieldset>
-      </form>
+    <div className="grid grid-cols-3 gap-4">
+      <div>
+        <h3 className="font-bold mt-2">Add</h3>
+        <CustomCurrency addCurrency={addCurrency} />
+      </div>
 
-      <ul>
-        {currencies &&
-          currencies.map((el) => (
-            <li key={Math.random()}>
-              {el} - {currency_list[el]}
-              <button
-                onClick={() => remove(el)}
-                className="text-red-600 p-1 font-bold text-xl ml-2"
-              >
-                -
-              </button>
-            </li>
-          ))}
-      </ul>
+      <div>
+        <h3 className="font-bold mt-2">Select</h3>
+        <form>
+          <fieldset className="h-96 overflow-auto">
+            {Object.keys(currency_list).map((key) => {
+              return (
+                <div key={key}>
+                  <input
+                    onChange={changed}
+                    type="checkbox"
+                    id={`currency-${key}`}
+                    value={`${key}-${currency_list[key]}`}
+                    checked={isChecked(key)}
+                  />
+                  <label htmlFor={"currency-" + key}>
+                    <strong>{key}</strong>
+                    {currency_list[key]}
+                  </label>
+                </div>
+              );
+            })}
+          </fieldset>
+        </form>
+      </div>
+
+      <div>
+        <h3 className="font-bold mt-2">Used</h3>
+        <ul>
+          {currencies &&
+            currencies.map((el) => (
+              <li key={Math.random()}>
+                {el.split("-")[0]} - {el.split("-")[1]}
+                <button
+                  onClick={() => remove(el)}
+                  className="text-red-600 p-1 font-bold text-xl ml-2"
+                >
+                  -
+                </button>
+              </li>
+            ))}
+        </ul>
+      </div>
     </div>
   );
 }

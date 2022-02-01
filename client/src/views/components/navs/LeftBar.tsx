@@ -18,7 +18,7 @@ interface IProps {
 
 const LeftBar = ({ isAuth }: IProps) => {
   return (
-    <nav className={`leftbar ${!isAuth && "hidden"}`}>
+    <nav className={`leftbar ${!isAuth && "hide"}`}>
       <ul className="mt-16 px-2 text-gray-900">
         {isAuth ? (
           <>

@@ -45,11 +45,18 @@ const CustomCurrency: React.FC<IProps> = ({ addCurrency }) => {
           errors={errors}
           name="shortcode"
           type="text"
+          placeholder="Shortcode"
         />
-        <Input register={register} errors={errors} name="name" type="text" />
+        <Input
+          register={register}
+          errors={errors}
+          name="name"
+          type="text"
+          placeholder="Full name"
+        />
       </fieldset>
 
-      <SubmitButton text="Save" />
+      <SubmitButton text="Add" />
     </form>
   );
 };

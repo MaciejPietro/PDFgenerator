@@ -52,10 +52,10 @@ export interface IClientData {
 }
 
 export interface ISaleBeat {
-  beatName: string | null;
-  currency: string | null;
-  licension: string | null;
-  client: IClientData | null;
+  // beatName: string | null;
+  // currency: string | null;
+  // licension: string | null;
+  // client: IClientData | null;
 }
 
 export interface ICurrencies {

@@ -3,7 +3,7 @@ import { setCurrencies as setCurrenciesData } from "../../redux/actions/accountA
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/reducers";
 
-export default function useSettings() {
+export default function useCurrencies() {
   const [currencies, setCurrencies] = useState<string[]>();
   const currenciesData = useSelector(
     (state: RootState) => state.accountReducer.currencies,

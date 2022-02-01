@@ -38,6 +38,10 @@
       transition: opacity 0.22s ease 0.12s;
     }
   }
+
+  &.hide {
+    @apply hidden;
+  }
 }
 
 .topbar {
@@ -70,7 +74,7 @@
   }
 
   ul {
-    @apply flex items-center gap-5;
+    @apply flex items-center gap-8;
 
     li a {
       @apply font-sans;

@@ -10,6 +10,7 @@ import {
 } from "../../../redux/actions/accountActions";
 import { ILicension } from "../../../redux/types";
 import { connect } from "react-redux";
+import { useEffect } from "react";
 
 interface IProps {
   editCurrenciesConnect: (data: string[]) => Promise<any>;
@@ -25,8 +26,12 @@ const GeneralSettings = ({
   const [currencies, setCurrencies] = useCurrencies();
   const [licensions, setLicensions] = useLicensions();
 
+  const capitalize = (s) =>
+    s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+
   const editCurrencies = (data) => {
-    editCurrenciesConnect(data);
+    console.log(data);
+    // editCurrenciesConnect(data);
   };
 
   const editLicension = (data) => {
@@ -41,15 +46,22 @@ const GeneralSettings = ({
     });
   };
 
+  const addCurrency = ({ name, shortcode }) => {
+    const currency = `${shortcode.toUpperCase()}-${capitalize(name)}`;
+    setCurrencies((prev) => [...prev, currency]);
+    editCurrenciesConnect([...currencies, currency]);
+  };
+
   return (
     <div>
       <div>
         <h2 className="font-bold text-lg">Currencies</h2>
-        <h3>Select currencies you use to sell your beats</h3>
+        <h3>Add or select currencies you use to sell your beats</h3>
         <CurrencySettingsForm
           submitForm={editCurrencies}
           currencies={currencies}
           setCurrencies={setCurrencies}
+          addCurrency={addCurrency}
         />
       </div>
       <div className="mt-8">

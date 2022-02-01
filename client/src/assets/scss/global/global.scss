@@ -30,21 +30,10 @@ body {
   }
 }
 
-.dark {
-  h1 {
-    @apply text-white;
-  }
-
-  h2 {
-    @apply text-white;
-  }
-
-  .main {
-    @apply bg-gray-900;
-  }
-
-  .topbar,
-  .leftbar {
-    @apply bg-opacity-10 border-none;
+.clue {
+  &:hover {
+    .clue__answer {
+      @apply visible opacity-100;
+    }
   }
 }

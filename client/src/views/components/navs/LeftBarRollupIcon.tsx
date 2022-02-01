@@ -2,13 +2,13 @@ import { SlideInBarsIcon, SlideOutBarsIcon } from "../../../assets/icons";
 
 const LeftBarRollupIcon = () => (
   <div
-    className="leftbar__rollup-icon"
+    className="icon mt-auto ml-auto mr-2"
     onClick={(e) => {
       const parent = e.currentTarget.parentNode as HTMLElement;
       parent.classList.toggle("active");
     }}
   >
-    <div className="leftbar__rollup-icon__icon">
+    <div className="w-12 h-12 flex justify-center items-center cursor-pointer relative">
       <SlideInBarsIcon />
       <SlideOutBarsIcon className="hidden" />
     </div>
