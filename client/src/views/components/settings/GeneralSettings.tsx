@@ -26,12 +26,8 @@ const GeneralSettings = ({
   const [currencies, setCurrencies] = useCurrencies();
   const [licensions, setLicensions] = useLicensions();
 
-  const capitalize = (s) =>
-    s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
-
   const editCurrencies = (data) => {
-    console.log(data);
-    // editCurrenciesConnect(data);
+    editCurrenciesConnect(data);
   };
 
   const editLicension = (data) => {
@@ -46,8 +42,7 @@ const GeneralSettings = ({
     });
   };
 
-  const addCurrency = ({ name, shortcode }) => {
-    const currency = `${shortcode.toUpperCase()}-${capitalize(name)}`;
+  const addCurrency = (currency) => {
     setCurrencies((prev) => [...prev, currency]);
     editCurrenciesConnect([...currencies, currency]);
   };

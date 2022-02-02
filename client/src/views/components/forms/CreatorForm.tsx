@@ -11,29 +11,29 @@ import { NavLink } from "react-router-dom";
 
 import Clue from "../Clue";
 
-const schema = yup.object().shape({
-  beatName: yup.string(),
-  price: yup.number(),
-  currency: yup.string(),
-});
+// const schema = yup.object().shape({
+//   beatName: yup.string(),
+//   price: yup.number(),
+//   currency: yup.string(),
+// });
 
-const CreatorForm = ({ submitForm, changeForm }) => {
+const CreatorForm = ({ submitForm, changeForm, preview }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ISaleBeat>({
-    resolver: yupResolver<yup.AnyObjectSchema>(schema),
+    // resolver: yupResolver<yup.AnyObjectSchema>(),
   });
 
   const [customPrice, isCustomPrice] = useState<boolean>(false);
 
   const [data, setData] = useState({
-    beat: "",
-    currency: "-",
-    licension: "-",
+    beat: null,
+    currency: null,
+    licension: null,
     client: null,
-    price: "0",
+    price: null,
   });
 
   const [licensions] = useLicensions();
@@ -41,7 +41,7 @@ const CreatorForm = ({ submitForm, changeForm }) => {
   const [clients] = useClients();
 
   const restorePrice = () => {
-    const lic = licensions.find((el) => el.name == data.licension)?.prices;
+    const lic = licensions.find((el) => el._id == data.licension)?.prices;
 
     setData((prevState) => ({
       ...prevState,
@@ -50,7 +50,8 @@ const CreatorForm = ({ submitForm, changeForm }) => {
   };
 
   const onSubmit = (data) => {
-    // submitForm(data);
+    console.log("submituje");
+    submitForm(data);
   };
 
   const updateSingle = (type, value) => {
@@ -61,19 +62,15 @@ const CreatorForm = ({ submitForm, changeForm }) => {
   };
 
   const modifyPrice = (type, value) => {
-    if (type == "licension" && !customPrice && data.currency !== "-") {
+    if (type == "licension" && !customPrice && data.currency) {
       updateSingle(
         "price",
-        licensions.find((el) => el.name == value).prices[data.currency],
+        licensions.find((el) => el._id == value).prices[data.currency],
       );
     }
 
-    if (type == "currency" && !customPrice && data.licension !== "-") {
-      updateSingle(
-        "price",
-        licensions.find((el) => el.name == data.licension).prices[value],
-      );
-    }
+    if (type == "currency" && !customPrice && data.licension)
+      updateSingle("price", data.licension.prices[value]);
   };
 
   const change = (type, value) => {
@@ -116,7 +113,7 @@ const CreatorForm = ({ submitForm, changeForm }) => {
               </option>
               {licensions &&
                 licensions.map((lic) => (
-                  <option key={lic._id} value={lic.name}>
+                  <option key={lic._id} value={lic._id}>
                     {lic.name}
                   </option>
                 ))}
@@ -146,7 +143,7 @@ const CreatorForm = ({ submitForm, changeForm }) => {
               {currencies &&
                 currencies.map((currency) => (
                   <option key={currency} value={currency}>
-                    {currency.split("-")[1]}
+                    {currency?.split("-")[1]}
                   </option>
                 ))}
             </Select>
@@ -188,7 +185,7 @@ const CreatorForm = ({ submitForm, changeForm }) => {
           </div>
           <div>
             <span className="font-bold">Price</span>: {data.price}{" "}
-            {data.currency.split("-")[0]}
+            {data.currency?.split("-")[0]}
           </div>
 
           <div className="border rounded-md border-black p-2">
@@ -225,7 +222,10 @@ const CreatorForm = ({ submitForm, changeForm }) => {
           </div>
         </fieldset>
 
-        <SubmitButton text="Next" />
+        <button onClick={preview} type="button">
+          Preview{" "}
+        </button>
+        <SubmitButton text="Download" />
       </form>
     </>
   );

@@ -30,13 +30,13 @@ export function register(payload: IUserRegisterData) {
   return () => {
     const { username, email, password } = payload;
     const existsName = axios
-      .post("/api/findByName", { username: username })
+      .post("/api/user/findByName", { username: username })
       .then((res) => {
         return res.data;
       });
 
     const existsEmail = axios
-      .post("/api/findByEmail", { email: email })
+      .post("/api/user/findByEmail", { email: email })
       .then((res) => {
         return res.data;
       });
@@ -46,7 +46,7 @@ export function register(payload: IUserRegisterData) {
 
       const msg = freeUsernameEmail
         ? axios
-            .post("/api/register", { name: username, email, password })
+            .post("/api/user/register", { name: username, email, password })
             .then((res) => {
               if (res.data) return "Registered succesfully";
             })
@@ -62,7 +62,7 @@ export function register(payload: IUserRegisterData) {
 export function logIn(payload: [string, string]) {
   return (dispatch: Dispatch<AuthenticationAction, {}, any>) => {
     return axios
-      .post("/api/login", payload)
+      .post("/api/user/login", payload)
       .then(({ data: { user, auth, token } }) => {
         if (auth) {
           window.localStorage.setItem("userID", user._id);
@@ -90,7 +90,7 @@ export function authentication() {
     const token = window.localStorage.getItem("token");
 
     return axios
-      .get("/api/auth", {
+      .get("/api/user/auth", {
         headers: {
           "x-access-token": token,
         },

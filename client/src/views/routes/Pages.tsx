@@ -33,7 +33,7 @@ const Pages = () => {
         component={Settings}
       />
 
-      <LoggedInRoute path={["/creator"]} component={Creator} />
+      <LoggedInRoute path="/creator/:type" component={Creator} />
 
       <Route component={NotFound} />
     </Switch>

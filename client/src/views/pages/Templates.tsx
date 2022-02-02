@@ -16,7 +16,7 @@ const Templates = () => {
               Fusce pellentesque elit augue, eu finibus neque congue eu.
             </p>
           </div>
-          <NavLink to="/creator" className="mt-6">
+          <NavLink to="/creator/lease" className="mt-6">
             Fill and Send
           </NavLink>
         </div>
@@ -29,7 +29,7 @@ const Templates = () => {
               elit, ut pretium urna tortor in neque.
             </p>
           </div>
-          <NavLink to="/creator" className="mt-6">
+          <NavLink to="/creator/exclusive" className="mt-6">
             Fill and Send
           </NavLink>
         </div>

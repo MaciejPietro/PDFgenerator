@@ -6,7 +6,7 @@ interface IProps {
 
 const Summary: React.FC<IProps> = ({ data }) => {
   useEffect(() => {
-    console.log("data", data);
+    // console.log("data", data);
   });
   return (
     <div className="relative">

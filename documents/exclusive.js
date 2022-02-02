@@ -1,4 +1,35 @@
-<!DOCTYPE html>
+module.exports = (body) => {
+  const { data, personal, signature } = body
+  const dateObj = new Date()
+
+  const render = (text) => {
+    return text
+      ? `<span class="dynamic correct">${text}</span>`
+      : `<span class="dynamic">______</span>`
+  }
+
+  const renderSignature = () => {
+    return signature
+      ? `<img class="signature" src="data:image/jpeg;base64,${signature}" />`
+      : signature === undefined
+      ? '<div>Loading...</div>'
+      : ''
+  }
+
+  const treatSingleNum = (val) =>
+    (val + '').length == 1 ? '0' + val : val + ''
+
+  const date = {
+    month: treatSingleNum(dateObj.getUTCMonth() + 1),
+    day: treatSingleNum(dateObj.getUTCDate()),
+    year: dateObj.getUTCFullYear(),
+    monthName: dateObj.toLocaleString('en-us', { month: 'long' }),
+    dayName: dateObj.toLocaleString('en-us', { weekday: 'long' }),
+  }
+
+  console.log('This is a buffer:', data)
+
+  const html = `<!DOCTYPE html>
   <html>
     <head>
       <meta charset="utf-8" />
@@ -6,6 +37,10 @@
     data?.licension?.name
   } rights license agreement</title>
       <style>
+         html {
+          font-size: 9px;
+        }
+
         .licension {
           max-width: 800px;
           margin: auto;
@@ -13,7 +48,7 @@
           border: 1px solid #eee;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
           background: white;
-          font-size: 16px;
+          font-size: 1rem;
           line-height: 24px;
           font-family: 'Helvetica Neue', 'Helvetica';
           color: #555;
@@ -21,12 +56,12 @@
 
         .licension h1 {
           line-height: 1.25;
-          font-size: 1.6rem;
+          font-size: 14px;
         }
 
         .licension h2 {
           font-size: 1.2rem;
-          margin-top:1rem;
+          margin-top:1.4rem;
           margin-bottom: 12px;
         }
 
@@ -460,3 +495,6 @@
       </div>
     </body>
   </html>
+  `
+  return html
+}

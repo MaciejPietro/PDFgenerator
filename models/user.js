@@ -15,6 +15,7 @@ const userSchema = new Schema(
       type: String,
       require: true,
     },
+    logo: String,
     signatureKey: String,
     currencies: Array,
     personalDetails: {

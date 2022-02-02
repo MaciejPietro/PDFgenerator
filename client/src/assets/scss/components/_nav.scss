@@ -1,5 +1,5 @@
 .leftbar {
-  @apply bg-transparent w-16 h-screen border-r-2 bg-blue-200 bg-opacity-40  border-gray-500 fixed left-0 top-0 flex flex-col z-40;
+  @apply bg-transparent w-16 h-screen border-r-2 bg-blue-200 bg-opacity-40  border-gray-500 fixed left-0 top-0 flex flex-col z-20;
   transition: width 0.32s ease 0.12s, background-color 0.3s ease 0.3s;
 
   &__link {

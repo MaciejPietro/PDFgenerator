@@ -81,7 +81,7 @@ export function setSignature(payload?: FormData) {
 export function setAccount() {
   return (dispatch: Dispatch<ISetAccountAction, {}, any>) => {
     const userID = window.localStorage.getItem("userID");
-    return axios.get(`/api/account/${userID}`).then(({ data }) => {
+    return axios.get(`/api/settings/account/${userID}`).then(({ data }) => {
       const { username, password, email } = data;
       return dispatch(
         setAccountAction({
@@ -98,7 +98,7 @@ export function setAccount() {
 export function setPersonal() {
   return (dispatch: Dispatch<ISetAccountAction, {}, any>) => {
     const userID = window.localStorage.getItem("userID");
-    return axios.get(`/api/user/${userID}`).then(({ data }) => {
+    return axios.get(`/api/settings/personal/${userID}`).then(({ data }) => {
       const { personalDetails } = data;
       return dispatch(setPersonalAction(personalDetails));
     });
@@ -140,7 +140,7 @@ export function setLicensions() {
 export function editLicension(payload: ILicension) {
   return async (dispatch) => {
     const userID = window.localStorage.getItem("userID");
-    const { data } = await axios.post(`/api/licension/${userID}`, payload);
+    const { data } = await axios.post(`/api/licensions/${userID}`, payload);
 
     return data && dispatch(setLicensionsAction(data));
   };
@@ -149,7 +149,7 @@ export function editLicension(payload: ILicension) {
 export function deleteLicension(payload: any) {
   return async (dispatch) => {
     const userID = window.localStorage.getItem("userID");
-    const { data } = await axios.delete(`/api/licension/${userID}/${payload}`);
+    const { data } = await axios.delete(`/api/licensions/${userID}/${payload}`);
     return data && dispatch(setLicensionsAction(data));
   };
 }

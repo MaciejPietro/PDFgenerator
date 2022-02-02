@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 // import { useRef, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "../partials/Input";
@@ -20,7 +20,7 @@ const schema = yup.object().shape({
 });
 
 interface IProps {
-  addCurrency: any;
+  addCurrency: SubmitHandler<FormValues>;
 }
 
 type FormValues = {

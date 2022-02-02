@@ -18,7 +18,7 @@ const PersonalSettings = ({ setPersonalConnect }: IProps) => {
 
   const submitForm = (data: IPersonalDetailsData) => {
     const userID = window.localStorage.getItem("userID");
-    axios.patch(`/api/update-user/${userID}`, { data }).then((res) => {
+    axios.patch(`/api/settings/personal/${userID}`, { data }).then((res) => {
       {
         setMessage(res.data ? "Updated succesfully" : "Something went wrong");
         if (res.data)

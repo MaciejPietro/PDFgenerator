@@ -54,7 +54,7 @@ export function addClient(payload: IClientData) {
   return (dispatch: Dispatch<IAddClientAction, {}, any>) => {
     const userID = window.localStorage.getItem("userID");
 
-    return axios.post(`/api/client/${userID}`, payload).then((res) => {
+    return axios.post(`/api/clients/${userID}`, payload).then((res) => {
       if (res.data) {
         return dispatch(addClientAction(res.data));
       }
@@ -77,7 +77,7 @@ export function deleteClient(clientID: string) {
   return (dispatch: Dispatch<any, {}, any>) => {
     const userID = window.localStorage.getItem("userID");
     return axios
-      .delete(`/api/client/${userID}/${clientID}`)
+      .delete(`/api/clients/${userID}/${clientID}`)
       .then(({ data }) => {
         return dispatch(setClientsAction(data));
       });
@@ -88,7 +88,7 @@ export function editClient(payload: FormData) {
   return (dispatch: Dispatch<any, {}, any>) => {
     const userID = window.localStorage.getItem("userID");
     return axios
-      .patch(`/api/client/${userID}/${payload.get("_id")}`, payload)
+      .patch(`/api/clients/${userID}/${payload.get("_id")}`, payload)
       .then(({ data }) => {
         return data && dispatch(editClientAction(data));
       });

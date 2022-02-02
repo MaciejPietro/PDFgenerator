@@ -9,7 +9,7 @@ interface IProps {
   component: React.ComponentType<any>;
 }
 
-const LoggedInRoute = ({ component: Component, isAuth }: IProps) => {
+const LoggedInRoute = ({ component: Component, isAuth, path }: IProps) => {
   if (isAuth == null) {
     return <div>Loading...</div>;
   }
@@ -17,9 +17,14 @@ const LoggedInRoute = ({ component: Component, isAuth }: IProps) => {
   return (
     <>
       <Route
-        render={(otherProps) =>
-          !isAuth ? <Redirect to="/login" /> : <Component {...otherProps} />
-        }
+        path={path}
+        render={(otherProps) => {
+          return !isAuth ? (
+            <Redirect to="/login" />
+          ) : (
+            <Component {...otherProps} />
+          );
+        }}
       />
     </>
   );

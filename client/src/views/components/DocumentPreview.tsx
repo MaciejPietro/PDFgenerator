@@ -1,30 +1,29 @@
-import React, { useState } from "react";
-import Exclusive from "./documents/Exclusive";
-
-import { ISaleBeat, IPersonalDetailsData } from "../../redux/types";
-import useSettings from "../hooks/useSettings";
-
 interface IProps {
-  data: ISaleBeat;
+  url: string;
+  closePreview: () => void;
 }
 
-function DocumentPreview({ data }: IProps) {
-  const [personal] = useSettings();
+const DocumentPreview: React.FC<IProps> = ({ url, closePreview }) => {
+  return (
+    <div
+      onClick={closePreview}
+      className={`fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-80 z-30 ${
+        url || "hidden"
+      }`}
+    >
+      <div className="w-2/3 max-w-4xl h-4/5">
+        {url && (
+          <embed
+            className="w-full h-full"
+            type="application/pdf"
+            src={`${url}`}
 
-  const dateObj = new Date();
-
-  const treatSingleNum = (val: number) =>
-    (val + "").length == 1 ? "0" + val : val + "";
-
-  const date = {
-    month: treatSingleNum(dateObj.getUTCMonth() + 1),
-    day: treatSingleNum(dateObj.getUTCDate()),
-    year: dateObj.getUTCFullYear(),
-    monthName: dateObj.toLocaleString("en-us", { month: "long" }),
-    dayName: dateObj.toLocaleString("en-us", { weekday: "long" }),
-  };
-
-  return <Exclusive data={data} personal={personal} date={date} />;
-}
+            // src={`${url}#toolbar=0`}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default DocumentPreview;

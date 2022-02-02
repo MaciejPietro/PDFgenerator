@@ -189,12 +189,15 @@ function CurrencySettingsForm({
   addCurrency,
 }: IProps) {
   const [canUpdate, setCanUpdate] = useState(false);
-
+  const [message, setMessage] = useState<string | null>(null);
   const isChecked = (key: string) =>
     !!(
       currencies &&
       currencies.map((el: string) => el.split("-")[0]).indexOf(key) + 1
     );
+
+  const capitalize = (s) =>
+    s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
   const changed = ({ target: { value, checked } }: IInput) => {
     if (checked) {
@@ -219,19 +222,30 @@ function CurrencySettingsForm({
     setCanUpdate(true);
   };
 
+  const add = ({ name, shortcode }) => {
+    const currency = `${shortcode.toUpperCase()}-${capitalize(name)}`;
+    if (currencies.includes(currency)) {
+      setMessage("Currency you trying to add is already in usage");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+      return;
+    }
+    addCurrency(currency);
+  };
+
   useEffect(() => {
     if (canUpdate) {
       submitForm(currencies);
     }
-
-    console.log(currencies);
   }, [currencies]);
 
   return (
     <div className="grid grid-cols-3 gap-4">
       <div>
         <h3 className="font-bold mt-2">Add</h3>
-        <CustomCurrency addCurrency={addCurrency} />
+        <CustomCurrency addCurrency={add} />
+        {message && <p>{message}</p>}
       </div>
 
       <div>

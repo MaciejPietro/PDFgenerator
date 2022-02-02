@@ -37,3 +37,17 @@ body {
     }
   }
 }
+
+.licension {
+  .dynamic {
+    background-color: #ffe1e1;
+    padding: 4px;
+    display: inline-block;
+    margin: 0px 2px;
+    border-radius: 10px;
+  }
+
+  .dynamic.correct {
+    background-color: #c7edc7;
+  }
+}
